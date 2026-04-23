@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Divya Sohani — Portfolio</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=Jost:wght@200;300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5F0E8;
+      --cream-deep: #EDE7D9;
+      --cream-mid: #E8E0D0;
+      --ink: #1A1714;
+      --ink-soft: #2C2820;
+      --ink-muted: #4A4440;
+      --bronze: #8B6F47;
+      --bronze-light: #C4A882;
+      --bronze-pale: #D4BC98;
+      --line: rgba(26, 23, 20, 0.12);
+      --line-strong: rgba(26, 23, 20, 0.22);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 8px;
+      height: 8px;
+      background: var(--ink);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-ring {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--bronze);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s, height 0.3s, border-color 0.3s;
+      transform: translate(-50%, -50%);
+    }
+
+    body:has(a:hover) .cursor-ring,
+    body:has(button:hover) .cursor-ring {
+      width: 48px;
+      height: 48px;
+      border-color: var(--ink);
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 28px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--bronze);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 44px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--line-strong);
+      padding: 10px 24px;
+      transition: all 0.3s;
+    }
+
+    .nav-cta:hover {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      padding-top: 100px;
+    }
+
+    .hero-left {
+      padding: 43px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--bronze);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(60px, 5vw, 74px);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 56px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--bronze);
+    }
+
+    .hero-sub {
+      font-family: 'Jost', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--ink-muted);
+      max-width: 380px;
+      margin-bottom: 56px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      margin-bottom: 75px;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 16px 40px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--bronze);
+    }
+
+    .btn-ghost {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s;
+    }
+
+    .btn-ghost:hover {
+      color: var(--ink);
+    }
+
+    .btn-ghost::after {
+      content: '→';
+      transition: transform 0.3s;
+    }
+
+    .btn-ghost:hover::after {
+      transform: translateX(4px);
+    }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 24px;
+      border-left: 1px solid var(--line);
+      background: var(--ink);
+      overflow: hidden;
+    }
+
+    /* Animated circuit/neural visualization */
+    .neural-vis {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .neural-vis svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-stats {
+      position: relative;
+      bottom: 60px;
+      left: 60px;
+      right: 60px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+      padding-top: 32px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .stat-item:not(:last-child) {
+      border-right: 1px solid var(--line);
+      padding-right: 32px;
+    }
+
+    .stat-item+.stat-item {
+      padding-left: 32px;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bronze);
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+      padding: 16px 0;
+      background: var(--cream-deep);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 24s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding: 0 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .marquee-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--bronze);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* SECTION STYLES */
+    section {
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 64px;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--bronze);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--bronze);
+    }
+
+    /* SERVICES */
+    .services {
+      padding: 120px 60px;
+      background: var(--cream);
+    }
+
+
+    .services-grid {
+      display: flex;
+      flex-wrap: nowrap;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      width: calc(400% / 3);
+    }
+
+    .service-card {
+      padding: 56px 48px;
+      border-right: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+      width: calc(100% / 4);
+      flex-shrink: 0;
+    }
+
+    #servicesPrev:hover, #servicesNext:hover {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    #servicesPrev:disabled, #servicesNext:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .service-card:last-child {
+      border-right: none;
+    }
+
+    .service-card:hover {
+      background: var(--cream-deep);
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--bronze);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--bronze-pale);
+      margin-bottom: 40px;
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 28px;
+      opacity: 0.7;
+    }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .service-desc {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--ink-muted);
+      margin-bottom: 36px;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .service-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      border: 1px solid var(--bronze-pale);
+      padding: 5px 12px;
+    }
+
+    /* WORK / PROJECTS */
+    .work {
+      padding: 120px 60px;
+      background: var(--cream-deep);
+    }
+
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--line);
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 240px 140px;
+      align-items: center;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--ink);
+      transition: padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: none;
+    }
+
+    .project-row::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--cream-mid);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: -1;
+    }
+
+    .project-row:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-row:hover {
+      padding-left: 16px;
+    }
+
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--bronze-pale);
+      letter-spacing: 0.1em;
+    }
+
+    .project-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .project-tags-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .project-tag-row {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      background: var(--cream);
+      padding: 4px 10px;
+    }
+
+    .project-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-muted);
+      text-align: right;
+      letter-spacing: 0.08em;
+    }
+
+    /* ABOUT / PROCESS */
+    .about {
+      padding: 120px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+      aspect-ratio: 0.9;
+    }
+
+    .about-box {
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--line);
+      background: var(--cream-deep);
+    }
+
+    .about-box-inner {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      right: -20px;
+      bottom: -20px;
+      border: 1px solid var(--bronze-pale);
+      background: var(--cream);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 40px;
+      overflow: hidden;
+    }
+
+    .about-portrait-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      opacity: 0.8;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+    }
+
+    .about-box-inner:hover .about-portrait-img {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+
+    .about-name-block {
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(to top, var(--cream) 40%, transparent);
+      padding: 20px;
+      margin: -40px;
+      margin-top: 0;
+    }
+
+    .about-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .about-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bronze);
+    }
+
+    .about-content {
+      position: relative;
+    }
+
+    .about-text {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--ink-muted);
+      margin-bottom: 28px;
+    }
+
+    .about-skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .skill-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px 20px;
+      border: 1px solid var(--line);
+      transition: border-color 0.3s;
+    }
+
+    .skill-item:hover {
+      border-color: var(--bronze-pale);
+    }
+
+    .skill-item-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .skill-bar {
+      height: 2px;
+      background: var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, var(--bronze), var(--bronze-light));
+      animation: fillBar 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: left;
+    }
+
+    @keyframes fillBar {
+      from {
+        width: 0;
+      }
+    }
+
+    .skill-94 {
+      width: 94%;
+    }
+
+    .skill-97 {
+      width: 97%;
+    }
+
+    .skill-88 {
+      width: 88%;
+    }
+
+    .skill-92 {
+      width: 92%;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials {
+      padding: 120px 60px;
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .testimonials .section-label {
+      color: var(--bronze-light);
+    }
+
+    .testimonials .section-label::before {
+      background: var(--bronze-light);
+    }
+
+    .testimonials .section-title {
+      color: var(--cream);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      margin-top: 64px;
+    }
+
+    .testimonial-card {
+      background: var(--ink-soft);
+      padding: 48px 40px;
+      position: relative;
+    }
+
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px;
+      line-height: 0.8;
+      color: var(--bronze);
+      opacity: 0.4;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .testimonial-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.65;
+      color: rgba(245, 240, 232, 0.85);
+      margin-bottom: 32px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .testimonial-name {
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--cream);
+    }
+
+    .testimonial-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--bronze-light);
+    }
+
+    /* PROCESS */
+    .process {
+      padding: 120px 60px;
+      background: var(--cream-deep);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 64px;
+      border: 1px solid var(--line);
+    }
+
+    .process-step {
+      padding: 48px 36px;
+      border-right: 1px solid var(--line);
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .process-step:last-child {
+      border-right: none;
+    }
+
+    .process-step:hover {
+      background: var(--cream);
+    }
+
+    .step-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--cream-mid);
+      line-height: 1;
+      margin-bottom: 24px;
+      transition: color 0.3s;
+    }
+
+    .process-step:hover .step-number {
+      color: var(--bronze-pale);
+    }
+
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--ink-muted);
+    }
+
+    /* CONTACT */
+    .contact {
+      padding: 140px 60px 100px;
+      background: var(--cream);
+      text-align: center;
+    }
+
+    .contact-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .contact-eyebrow::before,
+    .contact-eyebrow::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--bronze);
+    }
+
+    .contact-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 300;
+      line-height: 1.0;
+      color: var(--ink);
+      margin-bottom: 40px;
+    }
+
+    .contact-title em {
+      font-style: italic;
+      color: var(--bronze);
+    }
+
+    .contact-desc {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--ink-muted);
+      max-width: 480px;
+      margin: 0 auto 56px;
+    }
+
+    .contact-actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-email {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--bronze);
+      text-decoration: none;
+      border-bottom: 1px solid var(--bronze-pale);
+      padding-bottom: 4px;
+      transition: border-color 0.3s;
+      display: block;
+      margin-bottom: 56px;
+    }
+
+    .contact-email:hover {
+      border-color: var(--bronze);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 32px 60px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--cream-deep);
+    }
+
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--ink-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .footer-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--bronze);
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    .reveal-delay-5 {
+      transition-delay: 0.5s;
+    }
+
+    .section-title-spacing {
+      margin-bottom: 32px;
+    }
+
+    .btn-ghost-spacing {
+      margin-bottom: 8px;
+    }
+  </style>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Divya<span>Sohani</span></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#process">Process</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Let's Talk</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag reveal">AI Automation Specialist</div>
+      <h1 class="hero-title reveal reveal-delay-1">
+        Building<br><em>Intelligent</em><br>Systems
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Building scalable automation systems that increase efficiency and reduce operational load.
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="#work" class="btn-primary">View Projects</a>
+        <a href="#about" class="btn-ghost">About Me</a>
+      </div>
+
+      <div class="hero-stats reveal reveal-delay-4">
+        <div class="stat-item">
+          <span class="stat-num">20+</span>
+          <span class="stat-label">Projects Delivered</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">25+</span>
+          <span class="stat-label">Tasks Automated</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">98%</span>
+          <span class="stat-label">Client Retention</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="neural-vis">
+        <svg viewBox="0 0 760 500" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur stdDeviation="5" result="b" />
+              <feMerge>
+                <feMergeNode in="b" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="glowSm" x="-15%" y="-15%" width="130%" height="130%">
+              <feGaussianBlur stdDeviation="2.5" result="b" />
+              <feMerge>
+                <feMergeNode in="b" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <radialGradient id="bgG" cx="50%" cy="38%" r="52%">
+              <stop offset="0%" stop-color="#C4A882" stop-opacity="0.05" />
+              <stop offset="100%" stop-color="#C4A882" stop-opacity="0" />
+            </radialGradient>
+            <!-- Sub-node circle gradient — dark like screenshot -->
+            <radialGradient id="subNodeBg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#2C2820" />
+              <stop offset="100%" stop-color="#1E1C1A" />
+            </radialGradient>
+          </defs>
+
+          <!-- Canvas -->
+          <rect width="760" height="500" fill="#181614" />
+          <ellipse cx="380" cy="175" rx="340" ry="185" fill="url(#bgG)" />
+
+          <!-- ── Dot grid ── -->
+          <g fill="#F5F0E8" opacity="0.042">
+            <circle cx="38" cy="38" r="1.2" />
+            <circle cx="98" cy="38" r="1.2" />
+            <circle cx="158" cy="38" r="1.2" />
+            <circle cx="218" cy="38" r="1.2" />
+            <circle cx="278" cy="38" r="1.2" />
+            <circle cx="338" cy="38" r="1.2" />
+            <circle cx="398" cy="38" r="1.2" />
+            <circle cx="458" cy="38" r="1.2" />
+            <circle cx="518" cy="38" r="1.2" />
+            <circle cx="578" cy="38" r="1.2" />
+            <circle cx="638" cy="38" r="1.2" />
+            <circle cx="698" cy="38" r="1.2" />
+            <circle cx="38" cy="98" r="1.2" />
+            <circle cx="98" cy="98" r="1.2" />
+            <circle cx="158" cy="98" r="1.2" />
+            <circle cx="218" cy="98" r="1.2" />
+            <circle cx="278" cy="98" r="1.2" />
+            <circle cx="338" cy="98" r="1.2" />
+            <circle cx="398" cy="98" r="1.2" />
+            <circle cx="458" cy="98" r="1.2" />
+            <circle cx="518" cy="98" r="1.2" />
+            <circle cx="578" cy="98" r="1.2" />
+            <circle cx="638" cy="98" r="1.2" />
+            <circle cx="698" cy="98" r="1.2" />
+            <circle cx="38" cy="158" r="1.2" />
+            <circle cx="98" cy="158" r="1.2" />
+            <circle cx="158" cy="158" r="1.2" />
+            <circle cx="218" cy="158" r="1.2" />
+            <circle cx="278" cy="158" r="1.2" />
+            <circle cx="338" cy="158" r="1.2" />
+            <circle cx="398" cy="158" r="1.2" />
+            <circle cx="458" cy="158" r="1.2" />
+            <circle cx="518" cy="158" r="1.2" />
+            <circle cx="578" cy="158" r="1.2" />
+            <circle cx="638" cy="158" r="1.2" />
+            <circle cx="698" cy="158" r="1.2" />
+            <circle cx="38" cy="218" r="1.2" />
+            <circle cx="98" cy="218" r="1.2" />
+            <circle cx="158" cy="218" r="1.2" />
+            <circle cx="218" cy="218" r="1.2" />
+            <circle cx="278" cy="218" r="1.2" />
+            <circle cx="338" cy="218" r="1.2" />
+            <circle cx="398" cy="218" r="1.2" />
+            <circle cx="458" cy="218" r="1.2" />
+            <circle cx="518" cy="218" r="1.2" />
+            <circle cx="578" cy="218" r="1.2" />
+            <circle cx="638" cy="218" r="1.2" />
+            <circle cx="698" cy="218" r="1.2" />
+            <circle cx="38" cy="278" r="1.2" />
+            <circle cx="98" cy="278" r="1.2" />
+            <circle cx="158" cy="278" r="1.2" />
+            <circle cx="218" cy="278" r="1.2" />
+            <circle cx="278" cy="278" r="1.2" />
+            <circle cx="338" cy="278" r="1.2" />
+            <circle cx="398" cy="278" r="1.2" />
+            <circle cx="458" cy="278" r="1.2" />
+            <circle cx="518" cy="278" r="1.2" />
+            <circle cx="578" cy="278" r="1.2" />
+            <circle cx="638" cy="278" r="1.2" />
+            <circle cx="698" cy="278" r="1.2" />
+            <circle cx="38" cy="338" r="1.2" />
+            <circle cx="98" cy="338" r="1.2" />
+            <circle cx="158" cy="338" r="1.2" />
+            <circle cx="218" cy="338" r="1.2" />
+            <circle cx="278" cy="338" r="1.2" />
+            <circle cx="338" cy="338" r="1.2" />
+            <circle cx="398" cy="338" r="1.2" />
+            <circle cx="458" cy="338" r="1.2" />
+            <circle cx="518" cy="338" r="1.2" />
+            <circle cx="578" cy="338" r="1.2" />
+            <circle cx="638" cy="338" r="1.2" />
+            <circle cx="698" cy="338" r="1.2" />
+            <circle cx="38" cy="398" r="1.2" />
+            <circle cx="98" cy="398" r="1.2" />
+            <circle cx="158" cy="398" r="1.2" />
+            <circle cx="218" cy="398" r="1.2" />
+            <circle cx="278" cy="398" r="1.2" />
+            <circle cx="338" cy="398" r="1.2" />
+            <circle cx="398" cy="398" r="1.2" />
+            <circle cx="458" cy="398" r="1.2" />
+            <circle cx="518" cy="398" r="1.2" />
+            <circle cx="578" cy="398" r="1.2" />
+            <circle cx="638" cy="398" r="1.2" />
+            <circle cx="698" cy="398" r="1.2" />
+            <circle cx="38" cy="458" r="1.2" />
+            <circle cx="98" cy="458" r="1.2" />
+            <circle cx="158" cy="458" r="1.2" />
+            <circle cx="218" cy="458" r="1.2" />
+            <circle cx="278" cy="458" r="1.2" />
+            <circle cx="338" cy="458" r="1.2" />
+            <circle cx="398" cy="458" r="1.2" />
+            <circle cx="458" cy="458" r="1.2" />
+            <circle cx="518" cy="458" r="1.2" />
+            <circle cx="578" cy="458" r="1.2" />
+            <circle cx="638" cy="458" r="1.2" />
+            <circle cx="698" cy="458" r="1.2" />
+          </g>
+
+          <!-- ═══════════════════════════════════════════ -->
+          <!--  RED BOLT (trigger indicator, left of N1)  -->
+          <!-- ═══════════════════════════════════════════ -->
+          <!-- Bronze bolt replacing orange/red — keeping page theme -->
+          <path d="M32 148 L38 136 L42 144 L48 132 L42 158 L38 150 Z" fill="#8B6F47" opacity="0.9">
+            <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.8s" repeatCount="indefinite" />
+          </path>
+
+          <!-- ═══════════════════════════════════════════════ -->
+          <!--  HORIZONTAL CONNECTOR LINES + PORT CIRCLES     -->
+          <!-- ═══════════════════════════════════════════════ -->
+
+          <!-- N1 right port → N2 left port  (158→198) -->
+          <line x1="163" y1="155" x2="197" y2="155" stroke="#4A4440" stroke-width="1.6" />
+          <circle cx="163" cy="155" r="6" fill="#252220" stroke="#4A4440" stroke-width="1.5" />
+          <circle cx="163" cy="155" r="3" fill="#4A4440" />
+          <circle cx="197" cy="155" r="6" fill="#252220" stroke="#4A4440" stroke-width="1.5" />
+          <circle cx="197" cy="155" r="3" fill="#4A4440" />
+
+          <!-- N2 right port → N3 left port  (418→454) -->
+          <line x1="423" y1="155" x2="453" y2="155" stroke="#4A4440" stroke-width="1.6" />
+          <circle cx="423" cy="155" r="6" fill="#252220" stroke="#4A4440" stroke-width="1.5" />
+          <circle cx="423" cy="155" r="3" fill="#4A4440" />
+          <circle cx="453" cy="155" r="6" fill="#252220" stroke="#4A4440" stroke-width="1.5" />
+          <circle cx="453" cy="155" r="3" fill="#4A4440" />
+
+          <!-- N3 right port → N4 left port  (573→607) -->
+          <line x1="578" y1="155" x2="606" y2="155" stroke="#4A4440" stroke-width="1.6" />
+          <circle cx="578" cy="155" r="6" fill="#252220" stroke="#4A4440" stroke-width="1.5" />
+          <circle cx="578" cy="155" r="3" fill="#4A4440" />
+          <circle cx="606" cy="155" r="6" fill="#252220" stroke="#4A4440" stroke-width="1.5" />
+          <circle cx="606" cy="155" r="3" fill="#4A4440" />
+
+          <!-- N4 right port (trailing) -->
+          <circle cx="742" cy="155" r="6" fill="#252220" stroke="#4A4440" stroke-width="1.5" />
+          <circle cx="742" cy="155" r="3" fill="#4A4440" />
+
+          <!-- ═══════════════════════════════════════════════════ -->
+          <!--  DASHED VERTICAL LINES FROM AI AGENT (sub-nodes)  -->
+          <!-- ═══════════════════════════════════════════════════ -->
+
+          <!-- "Chat Model*" diamond port on bottom of N2, at x=270 -->
+          <!-- Diamond connector (◇) at bottom of AI Agent node -->
+          <path d="M270 208 L276 216 L270 224 L264 216 Z" fill="#252220" stroke="#4A4440" stroke-width="1.3" />
+          <!-- Dashed line down to OpenAI circle -->
+          <line x1="270" y1="224" x2="270" y2="284" stroke="#4A4440" stroke-width="1.2" stroke-dasharray="5 3.5" />
+          <!-- "Model" label on wire -->
+          <text x="255" y="260" font-family="'DM Mono', monospace" font-size="8" fill="#8B6F47"
+            opacity="0.65">Model</text>
+
+          <!-- "Memory" diamond port on bottom of N2, at x=340 -->
+          <path d="M340 208 L346 216 L340 224 L334 216 Z" fill="#252220" stroke="#4A4440" stroke-width="1.3" />
+          <!-- Dashed line down through Memory label to Simple Memory circle -->
+          <line x1="340" y1="224" x2="340" y2="370" stroke="#4A4440" stroke-width="1.2" stroke-dasharray="5 3.5" />
+          <!-- "Memory" label mid-wire -->
+          <text x="344" y="348" font-family="'DM Mono', monospace" font-size="8" fill="#8B6F47"
+            opacity="0.65">Memory</text>
+
+          <!-- "Tool" label (no connection shown in screenshot, just label) -->
+          <text x="390" y="218" font-family="'DM Mono', monospace" font-size="8" fill="#8B6F47"
+            opacity="0.55">Tool</text>
+          <!-- + button below Tool -->
+          <text x="390" y="240" font-family="'DM Mono', monospace" font-size="13" fill="#8B6F47" opacity="0.45">+</text>
+
+          <!-- ══════════════════════════════════ -->
+          <!--  NODE 1: WhatsApp Trigger          -->
+          <!--  x=48, y=108, w=115, h=94          -->
+          <!-- ══════════════════════════════════ -->
+          <g filter="url(#glowSm)">
+            <rect x="48" y="108" width="115" height="94" rx="14" fill="#252220" stroke="#333028" stroke-width="1.5" />
+          </g>
+          <!-- WhatsApp green circle icon — keeping green from screenshot as it's a brand icon -->
+          <circle cx="105" cy="146" r="30" fill="#25A850" opacity="0.9" />
+          <!-- WhatsApp phone-in-bubble icon (white) -->
+          <path
+            d="M93 136 Q93 128 101 128 L109 128 Q117 128 117 136 L117 146 Q117 154 109 154 L100 154 L96 158 L96 154 Q93 154 93 146 Z"
+            fill="none" stroke="#F5F0E8" stroke-width="2.2" stroke-linejoin="round" />
+          <line x1="100" y1="137" x2="110" y2="137" stroke="#F5F0E8" stroke-width="1.8" stroke-linecap="round"
+            opacity="0.9" />
+          <line x1="100" y1="143" x2="107" y2="143" stroke="#F5F0E8" stroke-width="1.8" stroke-linecap="round"
+            opacity="0.7" />
+          <!-- Label below node -->
+          <text x="105" y="218" font-family="'DM Mono', monospace" font-size="9" fill="#F5F0E8" text-anchor="middle"
+            opacity="0.9">WhatsApp Trigger</text>
+
+          <!-- ══════════════════════════════════ -->
+          <!--  NODE 2: AI Agent (wider)          -->
+          <!--  x=197, y=108, w=226, h=94         -->
+          <!-- ══════════════════════════════════ -->
+          <g filter="url(#glowSm)">
+            <rect x="197" y="108" width="226" height="94" rx="14" fill="#252220" stroke="#333028" stroke-width="1.5" />
+          </g>
+          <!-- Robot icon circle bg -->
+          <circle cx="255" cy="148" r="28" fill="#2E2B26" />
+          <!-- Robot face -->
+          <rect x="242" y="136" width="26" height="22" rx="5" fill="none" stroke="#D4BC98" stroke-width="2" />
+          <circle cx="249" cy="147" r="3" fill="#D4BC98" opacity="0.9" />
+          <circle cx="261" cy="147" r="3" fill="#D4BC98" opacity="0.9" />
+          <rect x="249" y="153" width="11" height="3" rx="1.5" fill="#C4A882" opacity="0.7" />
+          <!-- Antenna -->
+          <line x1="255" y1="136" x2="255" y2="129" stroke="#D4BC98" stroke-width="2" stroke-linecap="round" />
+          <circle cx="255" cy="128" r="2.5" fill="#D4BC98" />
+          <!-- "AI Agent" text in node -->
+          <text x="292" y="144" font-family="'Jost', sans-serif" font-size="16" fill="#F5F0E8" font-weight="300"
+            letter-spacing="0.02em">AI Agent</text>
+          <!-- Sub-labels row at bottom of node (Chat Model*, Memory, Tool) -->
+          <text x="220" y="192" font-family="'DM Mono', monospace" font-size="7.5" fill="#C4A882" opacity="0.6">Chat
+            Model*</text>
+          <text x="298" y="192" font-family="'DM Mono', monospace" font-size="7.5" fill="#C4A882"
+            opacity="0.6">Memory</text>
+          <text x="365" y="192" font-family="'DM Mono', monospace" font-size="7.5" fill="#C4A882"
+            opacity="0.6">Tool</text>
+          <!-- Active pulse dot top-right of node -->
+          <circle cx="413" cy="116" r="5.5" fill="#C4A882">
+            <animate attributeName="opacity" values="1;0.15;1" dur="1.4s" repeatCount="indefinite" />
+            <animate attributeName="r" values="4.5;6;4.5" dur="1.4s" repeatCount="indefinite" />
+          </circle>
+
+          <!-- ══════════════════════════════════ -->
+          <!--  NODE 3: Code  {}                  -->
+          <!--  x=453, y=108, w=125, h=94         -->
+          <!-- ══════════════════════════════════ -->
+          <g filter="url(#glowSm)">
+            <rect x="453" y="108" width="125" height="94" rx="14" fill="#252220" stroke="#333028" stroke-width="1.5" />
+          </g>
+          <!-- {} bronze braces (matching page bronze palette, not orange) -->
+          <text x="515" y="168" font-family="'DM Mono', monospace" font-size="42" fill="#C4A882" text-anchor="middle"
+            opacity="0.95">{}</text>
+          <!-- Label below node -->
+          <text x="515" y="218" font-family="'DM Mono', monospace" font-size="9" fill="#F5F0E8" text-anchor="middle"
+            opacity="0.9">Code</text>
+
+          <!-- ══════════════════════════════════ -->
+          <!--  NODE 4: Send message              -->
+          <!--  x=606, y=108, w=136, h=94         -->
+          <!-- ══════════════════════════════════ -->
+          <g filter="url(#glowSm)">
+            <rect x="606" y="108" width="136" height="94" rx="14" fill="#252220" stroke="#333028" stroke-width="1.5" />
+          </g>
+          <!-- WhatsApp green circle icon -->
+          <circle cx="672" cy="148" r="30" fill="#25A850" opacity="0.9" />
+          <path
+            d="M660 138 Q660 130 668 130 L676 130 Q684 130 684 138 L684 148 Q684 156 676 156 L667 156 L663 160 L663 156 Q660 156 660 148 Z"
+            fill="none" stroke="#F5F0E8" stroke-width="2.2" stroke-linejoin="round" />
+          <line x1="667" y1="139" x2="677" y2="139" stroke="#F5F0E8" stroke-width="1.8" stroke-linecap="round"
+            opacity="0.9" />
+          <line x1="667" y1="145" x2="674" y2="145" stroke="#F5F0E8" stroke-width="1.8" stroke-linecap="round"
+            opacity="0.7" />
+          <!-- Label below node -->
+          <text x="672" y="218" font-family="'DM Mono', monospace" font-size="9" fill="#F5F0E8" text-anchor="middle"
+            opacity="0.9">Send message</text>
+          <text x="672" y="230" font-family="'DM Mono', monospace" font-size="7.5" fill="#8B6F47" text-anchor="middle"
+            opacity="0.65">message: send</text>
+
+          <!-- ═══════════════════════════════════════════ -->
+          <!--  SUB-NODE: OpenAI Chat Model (circle)       -->
+          <!-- ═══════════════════════════════════════════ -->
+          <circle cx="270" cy="332" r="46" fill="url(#subNodeBg)" stroke="#333028" stroke-width="1.5"
+            filter="url(#glowSm)" />
+          <!-- OpenAI swirl icon (white on dark) -->
+          <circle cx="270" cy="324" r="20" fill="#2C2820" stroke="#D4BC98" stroke-width="1.5" />
+          <!-- 6-point OpenAI star shape -->
+          <path
+            d="M270,308 L272.8,315.5 L280.8,312.7 L276,320 L280.8,327.3 L272.8,324.5 L270,332 L267.2,324.5 L259.2,327.3 L264,320 L259.2,312.7 L267.2,315.5 Z"
+            fill="#D4BC98" opacity="0.85" />
+          <circle cx="270" cy="320" r="5" fill="#2C2820" />
+          <circle cx="270" cy="320" r="2.5" fill="#D4BC98" opacity="0.9" />
+          <!-- Label below circle -->
+          <text x="270" y="392" font-family="'DM Mono', monospace" font-size="9" fill="#F5F0E8" text-anchor="middle"
+            opacity="0.85">OpenAI Chat Model</text>
+
+          <!-- ═══════════════════════════════════════════ -->
+          <!--  SUB-NODE: Simple Memory (circle)           -->
+          <!-- ═══════════════════════════════════════════ -->
+          <circle cx="340" cy="432" r="46" fill="url(#subNodeBg)" stroke="#333028" stroke-width="1.5"
+            filter="url(#glowSm)" />
+          <!-- DB cylinder icon (white on dark, like screenshot) -->
+          <ellipse cx="340" cy="420" rx="16" ry="7" fill="#2C2820" stroke="#D4BC98" stroke-width="1.8" />
+          <line x1="324" y1="420" x2="324" y2="440" stroke="#D4BC98" stroke-width="1.8" opacity="0.8" />
+          <line x1="356" y1="420" x2="356" y2="440" stroke="#D4BC98" stroke-width="1.8" opacity="0.8" />
+          <ellipse cx="340" cy="440" rx="16" ry="7" fill="none" stroke="#D4BC98" stroke-width="1.8" opacity="0.9" />
+          <!-- middle stripe line (typical DB icon) -->
+          <line x1="324" y1="430" x2="356" y2="430" stroke="#D4BC98" stroke-width="1" opacity="0.35" />
+          <!-- Label below circle -->
+          <text x="340" y="492" font-family="'DM Mono', monospace" font-size="9" fill="#F5F0E8" text-anchor="middle"
+            opacity="0.85">Simple Memory</text>
+
+          <!-- ═══════════════════ -->
+          <!--  ANIMATED PACKETS  -->
+          <!-- ═══════════════════ -->
+          <!-- N1 → N2 -->
+          <circle r="5" fill="#C4A882" filter="url(#glow)">
+            <animateMotion dur="1.1s" repeatCount="indefinite" path="M 163 155 L 197 155" />
+            <animate attributeName="opacity" values="0;1;1;0" dur="1.1s" repeatCount="indefinite" />
+          </circle>
+          <!-- N2 → N3 -->
+          <circle r="4.5" fill="#D4BC98">
+            <animateMotion dur="1.0s" repeatCount="indefinite" begin="0.4s" path="M 423 155 L 453 155" />
+            <animate attributeName="opacity" values="0;0.9;0.9;0" dur="1.0s" repeatCount="indefinite" begin="0.4s" />
+          </circle>
+          <!-- N3 → N4 -->
+          <circle r="4.5" fill="#C4A882">
+            <animateMotion dur="1.0s" repeatCount="indefinite" begin="0.8s" path="M 578 155 L 606 155" />
+            <animate attributeName="opacity" values="0;0.9;0.9;0" dur="1.0s" repeatCount="indefinite" begin="0.8s" />
+          </circle>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item"><span class="marquee-dot"></span>Process Automation</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>LLM Integration</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Workflow Design</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>API Orchestration</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Data Pipelines</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Intelligent Agents</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>RAG Systems</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>n8n · voiceflow</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Python · JavaScript</span>
+      <!-- duplicate -->
+      <span class="marquee-item"><span class="marquee-dot"></span>Process Automation</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>LLM Integration</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Workflow Design</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>API Orchestration</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Data Pipelines</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Intelligent Agents</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>RAG Systems</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>n8n · voiceflow</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Python · JavaScript</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">What I Do</div>
+        <h2 class="section-title">Core <em>Services</em></h2>
+      </div>
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button id="servicesPrev" style="
+          width: 48px;
+          height: 48px;
+          border: 1px solid var(--line-strong);
+          background: transparent;
+          color: var(--ink);
+          font-size: 18px;
+          cursor: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s;
+          font-family: 'DM Mono', monospace;
+          opacity: 0.3;
+        ">←</button>
+        <button id="servicesNext" style="
+          width: 48px;
+          height: 48px;
+          border: 1px solid var(--line-strong);
+          background: transparent;
+          color: var(--ink);
+          font-size: 18px;
+          cursor: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s;
+          font-family: 'DM Mono', monospace;
+        ">→</button>
+      </div>
+    </div>
+    <div style="overflow: hidden; border: 1px solid var(--line);">
+    <div class="services-grid" id="servicesGrid" style="border: none;">
+      <div class="service-card reveal">
+        <div class="service-number">01</div>
+        <!-- n8n workflow icon: nodes connected by flow arrows -->
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Trigger node (circle) -->
+          <circle cx="8" cy="24" r="5.5" stroke="#8B6F47" stroke-width="1.5" fill="none" />
+          <circle cx="8" cy="24" r="2" fill="#C4A882" />
+          <!-- Flow line 1 -->
+          <line x1="13.5" y1="24" x2="18" y2="24" stroke="#8B6F47" stroke-width="1.2" stroke-dasharray="2 1.5" />
+          <!-- n8n-style process node (rounded rect) -->
+          <rect x="18" y="19" width="12" height="10" rx="2.5" stroke="#8B6F47" stroke-width="1.5" fill="none" />
+          <circle cx="24" cy="24" r="2" fill="#8B6F47" opacity="0.5" />
+          <!-- Flow line 2 -->
+          <line x1="30" y1="24" x2="34.5" y2="24" stroke="#8B6F47" stroke-width="1.2" stroke-dasharray="2 1.5" />
+          <!-- Output node (hexagon) -->
+          <path d="M40 20.5 L43 24 L40 27.5 L37 27.5 L34.5 24 L37 20.5 Z" stroke="#C4A882" stroke-width="1.4"
+            fill="none" />
+          <!-- Branch line going down -->
+          <line x1="24" y1="29" x2="24" y2="34" stroke="#8B6F47" stroke-width="1.2" stroke-dasharray="2 1.5"
+            opacity="0.5" />
+          <!-- Branch node -->
+          <rect x="18" y="34" width="12" height="8" rx="2" stroke="#8B6F47" stroke-width="1" fill="none"
+            opacity="0.5" />
+          <!-- Arrow heads -->
+          <polyline points="16.5,22.5 18,24 16.5,25.5" stroke="#8B6F47" stroke-width="1.2" fill="none"
+            stroke-linecap="round" />
+          <polyline points="33,22.5 34.5,24 33,25.5" stroke="#8B6F47" stroke-width="1.2" fill="none"
+            stroke-linecap="round" />
+        </svg>
+        <div class="service-name">AI Workflow Automation</div>
+        <p class="service-desc">I design end-to-end automated business workflows that eliminate manual operations. From
+          lead capture to decision-making, systems automatically process data, trigger actions, and update records
+          across platforms in real time.</p>
+        <div class="service-tags">
+          <span class="service-tag">n8n</span>
+          <span class="service-tag">Make.com</span>
+          <span class="service-tag">Python</span>
+          <span class="service-tag">Webhooks</span>
+          <span class="service-tag">APIs</span>
+          <span class="service-tag">Google Sheets</span>
+          <span class="service-tag">Fireflies</span>
+          <span class="service-tag">Retell AI</span>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-number">02</div>
+        <!-- AI agents + vector DB / RAG icon -->
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Central AI brain (hexagonal neural net) -->
+          <path d="M24 8 L31 12 L31 20 L24 24 L17 20 L17 12 Z" stroke="#8B6F47" stroke-width="1.5" fill="none" />
+          <!-- Inner glow node -->
+          <circle cx="24" cy="16" r="3" fill="#C4A882" opacity="0.7" />
+          <!-- Vector memory cylinders (DB stacks) -->
+          <ellipse cx="8" cy="36" rx="5" ry="2.5" stroke="#8B6F47" stroke-width="1.2" fill="none" />
+          <rect x="3" y="30" width="10" height="6" stroke="#8B6F47" stroke-width="1.2" fill="none" />
+          <ellipse cx="8" cy="30" rx="5" ry="2.5" stroke="#8B6F47" stroke-width="1.2" fill="none" />
+          <!-- Agent out-node right -->
+          <circle cx="40" cy="32" r="5" stroke="#C4A882" stroke-width="1.4" fill="none" />
+          <path d="M37 32 Q40 29 43 32" stroke="#C4A882" stroke-width="1.1" fill="none" stroke-linecap="round" />
+          <circle cx="40" cy="35" r="1.5" fill="#C4A882" opacity="0.6" />
+          <!-- Connection lines from brain -->
+          <line x1="17" y1="20" x2="13" y2="30" stroke="#8B6F47" stroke-width="1" stroke-dasharray="2 2"
+            opacity="0.6" />
+          <line x1="31" y1="20" x2="35" y2="27" stroke="#8B6F47" stroke-width="1" stroke-dasharray="2 2"
+            opacity="0.6" />
+          <!-- Query arrow down -->
+          <line x1="24" y1="24" x2="24" y2="32" stroke="#8B6F47" stroke-width="1.2" opacity="0.5" />
+          <polyline points="22,30 24,32 26,30" stroke="#8B6F47" stroke-width="1.2" fill="none" stroke-linecap="round"
+            opacity="0.5" />
+        </svg>
+        <div class="service-name">AI Agents &amp; Knowledge Systems</div>
+        <p class="service-desc">I build intelligent AI agents that understand business context using Retrieval-Augmented
+          Generation (RAG). They can answer queries, evaluate candidates, assist customers, and make structured
+          decisions based on company data.</p>
+        <div class="service-tags">
+          <span class="service-tag">GPT-4o</span>
+          <span class="service-tag">Claude</span>
+          <span class="service-tag">LangChain</span>
+          <span class="service-tag">Vector DB</span>
+          <span class="service-tag">RAG</span>
+          <span class="service-tag">Prompt Engineering</span>
+          <span class="service-tag">Function Calling</span>
+          <span class="service-tag">Tools &amp; Memory</span>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-number">03</div>
+        <!-- CRM + API integration icon: interconnected app tiles -->
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- App tile: CRM (top left) -->
+          <rect x="4" y="4" width="14" height="10" rx="2" stroke="#8B6F47" stroke-width="1.5" fill="none" />
+          <line x1="7" y1="8" x2="15" y2="8" stroke="#C4A882" stroke-width="1" stroke-linecap="round" />
+          <line x1="7" y1="11" x2="13" y2="11" stroke="#8B6F47" stroke-width="0.8" stroke-linecap="round"
+            opacity="0.5" />
+          <!-- App tile: WhatsApp/Messaging (top right) -->
+          <rect x="30" y="4" width="14" height="10" rx="2" stroke="#8B6F47" stroke-width="1.5" fill="none" />
+          <path d="M33 11 Q37 7 41 11 L41 13 Q37 11 33 13 Z" fill="#C4A882" opacity="0.4" />
+          <!-- App tile: Webhook/API (bottom left) -->
+          <rect x="4" y="34" width="14" height="10" rx="2" stroke="#8B6F47" stroke-width="1.5" fill="none" />
+          <path d="M8 37 L10 41 L12 39 L14 42" stroke="#C4A882" stroke-width="1.2" fill="none" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <!-- App tile: GoHighLevel/Sheets (bottom right) -->
+          <rect x="30" y="34" width="14" height="10" rx="2" stroke="#8B6F47" stroke-width="1.5" fill="none" />
+          <line x1="33" y1="37" x2="41" y2="37" stroke="#8B6F47" stroke-width="1" opacity="0.5" />
+          <line x1="33" y1="40" x2="41" y2="40" stroke="#8B6F47" stroke-width="1" opacity="0.5" />
+          <line x1="33" y1="43" x2="38" y2="43" stroke="#C4A882" stroke-width="1" opacity="0.7" />
+          <!-- Central hub -->
+          <circle cx="24" cy="24" r="5" stroke="#8B6F47" stroke-width="1.5" fill="none" />
+          <circle cx="24" cy="24" r="2" fill="#C4A882" />
+          <!-- Connecting lines to hub -->
+          <line x1="18" y1="14" x2="21" y2="20" stroke="#8B6F47" stroke-width="1" stroke-dasharray="2 2"
+            opacity="0.6" />
+          <line x1="30" y1="14" x2="27" y2="20" stroke="#8B6F47" stroke-width="1" stroke-dasharray="2 2"
+            opacity="0.6" />
+          <line x1="18" y1="34" x2="21" y2="28" stroke="#8B6F47" stroke-width="1" stroke-dasharray="2 2"
+            opacity="0.6" />
+          <line x1="30" y1="34" x2="27" y2="28" stroke="#8B6F47" stroke-width="1" stroke-dasharray="2 2"
+            opacity="0.6" />
+        </svg>
+        <div class="service-name">CRM &amp; System Integrations</div>
+        <p class="service-desc">I connect CRMs, communication platforms, and internal tools into one unified ecosystem.
+          Data flows automatically between systems, enabling scalable onboarding, tracking, and personalized automation
+          per client.</p>
+        <div class="service-tags">
+          <span class="service-tag">GoHighLevel</span>
+          <span class="service-tag">HubSpot</span>
+          <span class="service-tag">REST API</span>
+          <span class="service-tag">GraphQL</span>
+          <span class="service-tag">WhatsApp</span>
+          <span class="service-tag">Webhooks</span>
+          <span class="service-tag">Conditional Routing</span>
+          <span class="service-tag">Multi-Client Architecture</span>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-3" id="voiceAgentCard" style="border-right: none;">
+        <div class="service-number">04</div>
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Microphone body -->
+          <rect x="19" y="6" width="10" height="20" rx="5" stroke="#8B6F47" stroke-width="1.5" fill="none"/>
+          <!-- Mic arc -->
+          <path d="M12 24 Q12 34 24 34 Q36 34 36 24" stroke="#8B6F47" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Stand line -->
+          <line x1="24" y1="34" x2="24" y2="42" stroke="#8B6F47" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Base -->
+          <line x1="18" y1="42" x2="30" y2="42" stroke="#8B6F47" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Sound waves right -->
+          <path d="M38 18 Q42 24 38 30" stroke="#C4A882" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M41 15 Q47 24 41 33" stroke="#C4A882" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+          <!-- Inner mic fill dot -->
+          <circle cx="24" cy="16" r="2" fill="#C4A882" opacity="0.6"/>
+        </svg>
+        <div class="service-name">Voice AI Agents</div>
+        <p class="service-desc">I build AI voice agents that handle real-time customer conversations, capture leads, answer questions using a knowledge base, and route calls intelligently. These agents integrate with business systems to store structured data in CRMs and transfer conversations to human agents when required.</p>
+        <div class="service-tags">
+          <span class="service-tag">Retell AI</span>
+          <span class="service-tag">Voice AI</span>
+          <span class="service-tag">Call Routing</span>
+          <span class="service-tag">Lead Capture</span>
+          <span class="service-tag">CRM Integration</span>
+          <span class="service-tag">Knowledge Base</span>
+          <span class="service-tag">Function Calling</span>
+          <span class="service-tag">Human Handoff</span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work" id="work">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Selected Work</div>
+        <h2 class="section-title">Recent <em>Projects</em></h2>
+      </div>
+      <a href="projects.html" class="btn-ghost btn-ghost-spacing">View All</a>
+    </div>
+    <div class="projects-list">
+      <a href="project-think-shifts.html" class="project-row reveal">
+        <span class="project-num">01</span>
+        <span class="project-name">Think Shifts AI Portal</span>
+        <div class="project-tags-row">
+          <span class="project-tag-row">Voiceflow</span>
+          <span class="project-tag-row">LLM</span>
+          <span class="project-tag-row">Web</span>
+        </div>
+        <span class="project-year" style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+          2026 →
+          <span style="
+            font-family: 'DM Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--bronze);
+            border: 1px solid var(--bronze-pale);
+            padding: 3px 8px;
+            white-space: nowrap;
+          ">● Live · Verified</span>
+        </span>
+      </a>
+      <a href="project-inbox-intelligence.html" class="project-row reveal reveal-delay-1">
+        <span class="project-num">02</span>
+        <span class="project-name">Inbox Intelligence AI</span>
+        <div class="project-tags-row">
+          <span class="project-tag-row">Gmail</span>
+          <span class="project-tag-row">HubSpot</span>
+          <span class="project-tag-row">AI Replies</span>
+        </div>
+        <span class="project-year">2026 →</span>
+      </a>
+      <a href="project-adfelt.html" class="project-row reveal reveal-delay-2">
+        <span class="project-num">03</span>
+        <span class="project-name">Adfelt Voice Orchestrator</span>
+        <div class="project-tags-row">
+          <span class="project-tag-row">n8n</span>
+          <span class="project-tag-row">Retell AI</span>
+          <span class="project-tag-row">GoHighLevel</span>
+        </div>
+        <span class="project-year">2026 →</span>
+      </a>
+      <a href="project-dental.html" class="project-row reveal reveal-delay-3">
+        <span class="project-num">04</span>
+        <span class="project-name">AI Dental Appointment Booking</span>
+        <div class="project-tags-row">
+          <span class="project-tag-row">Retell AI</span>
+          <span class="project-tag-row">n8n</span>
+          <span class="project-tag-row">WhatsApp</span>
+          <span class="project-tag-row">Email</span>
+        </div>
+        <span class="project-year">2026 →</span>
+      </a>
+      <a href="project-content-machine.html" class="project-row reveal reveal-delay-4">
+        <span class="project-num">05</span>
+        <span class="project-name">AI Post Content Machine</span>
+        <div class="project-tags-row">
+          <span class="project-tag-row">n8n</span>
+          <span class="project-tag-row">OpenAI</span>
+          <span class="project-tag-row">LinkedIn</span>
+          <span class="project-tag-row">Google Sheets</span>
+        </div>
+        <span class="project-year">2026 →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-visual reveal">
+      <div class="about-box"></div>
+      <div class="about-box-inner">
+        <img src="My profile.jpeg" loading="lazy" alt="Divya Sohani — AI Automation Engineer"
+          class="about-portrait-img">
+        <div class="about-name-block">
+          <div class="about-name">Divya Sohani</div>
+          <div class="about-role">AI Automation Engineer</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-content reveal reveal-delay-1">
+      <div class="section-label">About</div>
+      <h2 class="section-title section-title-spacing">Turning <em>Complexity</em><br>into Clarity</h2>
+      <p class="about-text">I'm an AI automation specialist with 8+ months building intelligent systems that scale. My
+        work sits at the intersection of large language models, workflow orchestration, and enterprise integration.</p>
+      <p class="about-text">Every solution I build starts with deep understanding of your process — then I engineer
+        systems that don't just automate tasks, but learn and improve over time.</p>
+
+      <div class="about-skills-grid">
+        <div class="skill-item">
+          <span class="skill-item-name">LLM Orchestration</span>
+          <div class="skill-bar">
+            <div class="skill-bar-fill skill-94"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-item-name">Workflow Automation</span>
+          <div class="skill-bar">
+            <div class="skill-bar-fill skill-97"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-item-name">RAG Systems</span>
+          <div class="skill-bar">
+            <div class="skill-bar-fill skill-88"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-item-name">API Integration</span>
+          <div class="skill-bar">
+            <div class="skill-bar-fill skill-92"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">How I Work</div>
+        <h2 class="section-title">My <em>Process</em></h2>
+      </div>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-number">01</div>
+        <div class="step-title">Discovery</div>
+        <p class="step-desc">Deep-dive into your current workflows, pain points, and automation potential. Map data
+          flows and identify high-impact opportunities.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-number">02</div>
+        <div class="step-title">Architecture</div>
+        <p class="step-desc">Design a scalable automation architecture tailored to your stack. Select the right AI
+          models, tools, and integration patterns.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-number">03</div>
+        <div class="step-title">Build &amp; Iterate</div>
+        <p class="step-desc">Develop in sprints with continuous feedback. Each iteration is tested against real data
+          before moving forward.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-number">04</div>
+        <div class="step-title">Deploy &amp; Optimize</div>
+        <p class="step-desc">Launch with monitoring, logging, and performance tracking built in. Systems evolve with
+          your business needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="section-label reveal">Client Words</div>
+    <h2 class="section-title reveal">What They <em>Say</em></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">Rather than implementing a generic chatbot, Divya designed a solution tailored
+          specifically to our website and business objectives. The workflow deployment was well planned, logical, and
+          user-focused. She was professional, organised, and consistently delivered work on time.</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">Raj</span>
+          <span class="testimonial-role">Co-Founder, Think Shift Solutions</span>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">Divya designed an AI-powered document processing pipeline that extracts, classifies,
+          and syncs data across our systems — what took analysts 3 days now runs autonomously in under 4 hours.</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">Marcus Wolfe</span>
+          <span class="testimonial-role">CTO, Meridian Capital</span>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">Divya didn't just automate — she architected an intelligent CRM integration that
+          connects our GoHighLevel, WhatsApp, and internal tools into one seamless system. It feels purpose-built for
+          our business.</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">Priya Nair</span>
+          <span class="testimonial-role">VP Operations, Fieldstone</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-eyebrow reveal">Let's Build Something</div>
+    <h2 class="contact-title reveal">Ready to<br><em>Automate?</em></h2>
+    <p class="contact-desc reveal">Have a complex workflow that needs intelligence? Let's talk about how AI automation
+      can transform your operations.</p>
+    <a href="mailto:divyasohani01@gmail.com" class="contact-email reveal">divyasohani01@gmail.com</a>
+    <div class="contact-actions reveal">
+      <a href="https://calendly.com/sohnid3/30min" target="_blank" class="btn-primary">
+        Schedule a Call
+      </a>
+      <a href="#work" class="btn-ghost">View My Work</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy"> Divya — AI Automation</span>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/divya-sohani-95204923a/">LinkedIn</a>
+      <a href="https://github.com/divyasohani10?tab=repositories">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(el => io.observe(el));
+
+    const servicesGrid = document.getElementById('servicesGrid');
+    const servicesPrev = document.getElementById('servicesPrev');
+    const servicesNext = document.getElementById('servicesNext');
+    let servicesSlide = 0;
+
+    function slideServices(direction) {
+      if (direction === 'next' && servicesSlide === 0) {
+        servicesSlide = 1;
+      } else if (direction === 'prev' && servicesSlide === 1) {
+        servicesSlide = 0;
+      }
+      const cardWidth = servicesGrid.parentElement.offsetWidth / 3;
+      servicesGrid.style.transform = `translateX(-${servicesSlide * cardWidth}px)`;
+      servicesPrev.style.opacity = servicesSlide === 0 ? '0.3' : '1';
+      servicesPrev.style.pointerEvents = servicesSlide === 0 ? 'none' : 'auto';
+      servicesNext.style.opacity = servicesSlide === 1 ? '0.3' : '1';
+      servicesNext.style.pointerEvents = servicesSlide === 1 ? 'none' : 'auto';
+    }
+
+    servicesNext.addEventListener('click', () => slideServices('next'));
+    servicesPrev.addEventListener('click', () => slideServices('prev'));
+    servicesPrev.style.opacity = '0.3';
+    servicesPrev.style.pointerEvents = 'none';
+    window.addEventListener('resize', () => slideServices(servicesSlide === 0 ? 'stay' : 'stay'));
+  </script>
+</body>
+
+</html>

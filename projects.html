@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects — Divya Sohani</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=Jost:wght@200;300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --cream: #F5F0E8;
+            --cream-deep: #EDE7D9;
+            --cream-mid: #E8E0D0;
+            --ink: #1A1714;
+            --ink-soft: #2C2820;
+            --ink-muted: #4A4440;
+            --bronze: #8B6F47;
+            --bronze-light: #C4A882;
+            --bronze-pale: #D4BC98;
+            --line: rgba(26, 23, 20, 0.12);
+            --line-strong: rgba(26, 23, 20, 0.22);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor {
+            width: 8px;
+            height: 8px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--bronze);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s, height 0.3s, border-color 0.3s;
+            transform: translate(-50%, -50%);
+        }
+
+        body:has(a:hover) .cursor-ring,
+        body:has(button:hover) .cursor-ring {
+            width: 48px;
+            height: 48px;
+            border-color: var(--ink);
+        }
+
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.6;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 28px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, var(--cream) 60%, transparent);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--bronze);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 44px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-cta {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+            border: 1px solid var(--line-strong);
+            padding: 10px 24px;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: var(--ink);
+            color: var(--cream);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 117px 60px 100px;
+            background: var(--cream);
+        }
+
+        .hero-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--bronze);
+            margin-bottom: 36px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--bronze);
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(60px, 7vw, 96px);
+            font-weight: 300;
+            line-height: 1.0;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            margin-bottom: 24px;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--bronze);
+        }
+
+        .hero-subtitle {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            color: var(--bronze);
+            margin-top: 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: fit-content;
+            gap: 16px;
+        }
+
+        .hero-subtitle-line {
+            width: 40px;
+            height: 1px;
+            background: var(--bronze-pale);
+        }
+
+        /* PROJECTS GRID */
+        .projects-grid {
+            padding: 60px;
+            background: var(--cream-deep);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .project-item {
+            text-decoration: none;
+            color: var(--ink);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        .project-image-wrap {
+            aspect-ratio: 16/9;
+            background: var(--cream-mid);
+            border: 1px solid var(--line);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-image-placeholder {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-style: italic;
+            color: var(--bronze-pale);
+            opacity: 0.5;
+        }
+
+        .project-info {
+            padding: 10px 0;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .project-num-full {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--bronze);
+            letter-spacing: 0.1em;
+        }
+
+        .project-year-full {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--ink-muted);
+        }
+
+        .project-name-full {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .project-tags-full {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .project-tag-full {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            background: var(--cream);
+            padding: 4px 10px;
+            border: 1px solid var(--line);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 32px 60px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--cream-deep);
+        }
+
+        .footer-copy {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: var(--ink-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .footer-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--bronze);
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        @media (max-width: 900px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                padding: 20px 30px;
+            }
+
+            .hero,
+            .projects-grid,
+            footer {
+                padding-left: 30px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .hero-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-right: 30px;
+            }
+        }
+
+        .nav-back {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+            border: 1px solid var(--line-strong);
+            padding: 10px 24px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-back:hover {
+            background: var(--ink);
+            color: var(--cream);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-logo">Divya<span>Sohani</span></a>
+        <a href="index.html" class="nav-back">← Back to Home</a>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-tag reveal">AI Automation Projects</div>
+        <h1 class="hero-title reveal reveal-delay-1">
+            All <em>Selected</em><br>Projects
+        </h1>
+        <div class="hero-subtitle reveal reveal-delay-2">
+            <div class="hero-subtitle-line"></div>
+            <span>14 Projects · AI Automation · 2026</span>
+        </div>
+    </header>
+
+    <!-- PROJECTS GRID -->
+    <section class="projects-grid">
+<!-- Project 01 -->
+        <a href="project-think-shifts.html" class="project-item reveal">
+            <div class="project-image-wrap">
+                <!-- Think Shifts AI Portal: Voiceflow chatbot UI -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#EDE7D9" />
+                    <!-- Chat window chrome -->
+                    <rect x="40" y="20" width="240" height="140" rx="8" fill="#F5F0E8" stroke="#D4BC98"
+                        stroke-width="1" />
+                    <!-- Header bar -->
+                    <rect x="40" y="20" width="240" height="32" rx="8" fill="#1A1714" />
+                    <rect x="40" y="36" width="240" height="16" fill="#1A1714" />
+                    <circle cx="60" cy="36" r="5" fill="#8B6F47" opacity="0.7" />
+                    <text x="72" y="40" font-family="'DM Mono',monospace" font-size="8" fill="#F5F0E8"
+                        opacity="0.9">Think Shifts AI Portal</text>
+                    <!-- Bot message -->
+                    <rect x="52" y="64" width="130" height="24" rx="10" fill="#E8E0D0" />
+                    <text x="62" y="80" font-family="'DM Mono',monospace" font-size="7" fill="#4A4440">Hello! How can I
+                        help?</text>
+                    <!-- User message -->
+                    <rect x="138" y="97" width="110" height="22" rx="10" fill="#8B6F47" opacity="0.85" />
+                    <text x="148" y="112" font-family="'DM Mono',monospace" font-size="6.5" fill="#F5F0E8">Book a
+                        consultation</text>
+                    <!-- Bot response -->
+                    <rect x="52" y="128" width="145" height="22" rx="10" fill="#E8E0D0" />
+                    <text x="62" y="143" font-family="'DM Mono',monospace" font-size="6.5" fill="#4A4440">Sure! Checking
+                        availability…</text>
+                    <!-- Input bar -->
+                    <rect x="52" y="152" width="168" height="0" rx="0" fill="none" />
+                    <!-- Voiceflow badge -->
+                    <rect x="234" y="150" width="38" height="14" rx="3" fill="#C4A882" opacity="0.5" />
+                    <text x="253" y="160" font-family="'DM Mono',monospace" font-size="5.5" fill="#1A1714"
+                        text-anchor="middle">voiceflow</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">01</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">Think Shifts AI Portal</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">Voiceflow</span>
+                    <span class="project-tag-full">LLM</span>
+                    <span class="project-tag-full">Web</span>
+                </div>
+                <div style="margin-top: 14px; display: flex; align-items: center; gap: 8px;">
+                    <span style="
+                    font-family: 'DM Mono', monospace;
+                    font-size: 9px;
+                    letter-spacing: 0.14em;
+                    text-transform: uppercase;
+                    color: var(--bronze);
+                    border: 1px solid var(--bronze-pale);
+                    padding: 5px 12px;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                  ">
+                        <span
+                            style="width: 6px; height: 6px; background: var(--bronze); border-radius: 50%; display: inline-block;"></span>
+                        Live Project · Verified Client
+                    </span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 02 -->
+        <a href="project-inbox-intelligence.html" class="project-item reveal reveal-delay-1">
+            <div class="project-image-wrap">
+                <!-- Inbox Intelligence AI: Gmail + HubSpot + AI reply pipeline -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#1A1714" />
+                    <!-- n8n canvas dots -->
+                    <g fill="#F5F0E8" opacity="0.04">
+                        <circle cx="40" cy="40" r="1.5" />
+                        <circle cx="80" cy="40" r="1.5" />
+                        <circle cx="120" cy="40" r="1.5" />
+                        <circle cx="160" cy="40" r="1.5" />
+                        <circle cx="200" cy="40" r="1.5" />
+                        <circle cx="240" cy="40" r="1.5" />
+                        <circle cx="280" cy="40" r="1.5" />
+                        <circle cx="40" cy="90" r="1.5" />
+                        <circle cx="80" cy="90" r="1.5" />
+                        <circle cx="120" cy="90" r="1.5" />
+                        <circle cx="160" cy="90" r="1.5" />
+                        <circle cx="200" cy="90" r="1.5" />
+                        <circle cx="240" cy="90" r="1.5" />
+                        <circle cx="280" cy="90" r="1.5" />
+                        <circle cx="40" cy="140" r="1.5" />
+                        <circle cx="80" cy="140" r="1.5" />
+                        <circle cx="120" cy="140" r="1.5" />
+                        <circle cx="160" cy="140" r="1.5" />
+                        <circle cx="200" cy="140" r="1.5" />
+                        <circle cx="240" cy="140" r="1.5" />
+                        <circle cx="280" cy="140" r="1.5" />
+                    </g>
+                    <!-- Gmail node -->
+                    <rect x="20" y="70" width="64" height="40" rx="6" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <rect x="30" y="80" width="20" height="14" rx="2" stroke="#C4A882" stroke-width="1" fill="none" />
+                    <path d="M30 82 L40 89 L50 82" stroke="#C4A882" stroke-width="0.8" fill="none" />
+                    <text x="52" y="92" font-family="'DM Mono',monospace" font-size="6" fill="#F5F0E8"
+                        opacity="0.7">Gmail</text>
+                    <!-- Arrow -->
+                    <path d="M84 90 C100 90 108 90 118 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze2)" />
+                    <defs>
+                        <marker id="arrowBronze2" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                            <path d="M0,0.5 L4,2.5 L0,4.5" fill="none" stroke="#8B6F47" stroke-width="1" />
+                        </marker>
+                    </defs>
+                    <!-- AI classify node -->
+                    <rect x="118" y="65" width="84" height="50" rx="6" fill="#2C2820" stroke="#C4A882"
+                        stroke-width="1.5" />
+                    <circle cx="145" cy="90" r="10" fill="none" stroke="#C4A882" stroke-width="1" />
+                    <path d="M139 86 Q145 82 151 86 Q145 90 139 86Z" fill="#C4A882" opacity="0.4" />
+                    <circle cx="145" cy="90" r="2" fill="#C4A882" opacity="0.7" />
+                    <text x="160" y="87" font-family="'DM Mono',monospace" font-size="5.5" fill="#F5F0E8"
+                        opacity="0.8">GPT-4o</text>
+                    <text x="160" y="97" font-family="'DM Mono',monospace" font-size="5" fill="#C4A882"
+                        opacity="0.6">classify</text>
+                    <!-- Arrow to HubSpot -->
+                    <path d="M202 90 C214 90 218 90 230 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        marker-end="url(#arrowBronze2)" />
+                    <!-- HubSpot node -->
+                    <rect x="230" y="70" width="68" height="40" rx="6" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <circle cx="253" cy="90" r="7" fill="none" stroke="#C4A882" stroke-width="1" />
+                    <circle cx="253" cy="90" r="2.5" fill="#C4A882" opacity="0.6" />
+                    <text x="263" y="87" font-family="'DM Mono',monospace" font-size="5.5" fill="#F5F0E8"
+                        opacity="0.7">Hub</text>
+                    <text x="263" y="97" font-family="'DM Mono',monospace" font-size="5.5" fill="#F5F0E8"
+                        opacity="0.7">Spot</text>
+                    <!-- Status label -->
+                    <text x="160" y="150" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.6"
+                        text-anchor="middle">Inbox Intelligence AI</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">02</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">Inbox Intelligence AI</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">Gmail</span>
+                    <span class="project-tag-full">HubSpot</span>
+                    <span class="project-tag-full">AI Replies</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 03 -->
+        <a href="project-adfelt.html" class="project-item reveal">
+            <div class="project-image-wrap">
+                <!-- Adfelt Voice Orchestrator: n8n + Retell AI + GoHighLevel -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#EDE7D9" />
+                    <!-- Phone waveform visualization -->
+                    <rect x="20" y="55" width="60" height="70" rx="8" fill="#F5F0E8" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <!-- Phone icon -->
+                    <path
+                        d="M37 75 Q37 70 42 70 L44 74 Q42 75 42 77 Q44 82 48 84 Q50 84 51 82 L55 84 Q55 89 50 89 Q40 89 37 79 Z"
+                        fill="#C4A882" opacity="0.7" />
+                    <!-- Sound waves -->
+                    <path d="M58 78 Q62 82 58 86" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-linecap="round" />
+                    <path d="M62 75 Q68 82 62 89" stroke="#8B6F47" stroke-width="1" fill="none" stroke-linecap="round"
+                        opacity="0.5" />
+                    <text x="40" y="116" font-family="'DM Mono',monospace" font-size="5.5" fill="#4A4440"
+                        text-anchor="middle">Retell AI</text>
+                    <!-- Arrow right -->
+                    <path d="M80 90 C96 90 100 90 112 90" stroke="#8B6F47" stroke-width="1.3" fill="none"
+                        stroke-dasharray="4 2" />
+                    <polyline points="110,87.5 113,90 110,92.5" stroke="#8B6F47" stroke-width="1.3" fill="none"
+                        stroke-linecap="round" />
+                    <!-- n8n orchestrator center node -->
+                    <rect x="112" y="62" width="96" height="56" rx="8" fill="#1A1714" stroke="#8B6F47"
+                        stroke-width="1.5" />
+                    <!-- n8n logo text -->
+                    <text x="160" y="88" font-family="'Cormorant Garamond',serif" font-size="20" fill="#C4A882"
+                        text-anchor="middle" font-style="italic">n8n</text>
+                    <!-- Sub label -->
+                    <text x="160" y="104" font-family="'DM Mono',monospace" font-size="5.5" fill="#F5F0E8" opacity="0.5"
+                        text-anchor="middle">orchestrator</text>
+                    <!-- Pulse ring on n8n node -->
+                    <circle cx="160" cy="90" r="34" stroke="#8B6F47" stroke-width="0.8" fill="none" opacity="0.2">
+                        <animate attributeName="r" values="28;40;28" dur="2.5s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.2;0;0.2" dur="2.5s" repeatCount="indefinite" />
+                    </circle>
+                    <!-- Arrow to GHL -->
+                    <path d="M208 90 C220 90 224 90 236 90" stroke="#8B6F47" stroke-width="1.3" fill="none"
+                        stroke-dasharray="4 2" />
+                    <polyline points="234,87.5 237,90 234,92.5" stroke="#8B6F47" stroke-width="1.3" fill="none"
+                        stroke-linecap="round" />
+                    <!-- GoHighLevel node -->
+                    <rect x="236" y="62" width="66" height="56" rx="8" fill="#F5F0E8" stroke="#C4A882"
+                        stroke-width="1.3" />
+                    <!-- GHL icon: stacked CRM layers -->
+                    <rect x="249" y="72" width="28" height="7" rx="2" fill="#C4A882" opacity="0.7" />
+                    <rect x="249" y="82" width="22" height="5" rx="1.5" fill="#8B6F47" opacity="0.4" />
+                    <rect x="249" y="90" width="18" height="5" rx="1.5" fill="#8B6F47" opacity="0.25" />
+                    <text x="269" y="110" font-family="'DM Mono',monospace" font-size="5" fill="#4A4440"
+                        text-anchor="middle">GHL</text>
+                    <!-- Top label -->
+                    <text x="160" y="148" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.7"
+                        text-anchor="middle">Adfelt Voice Orchestrator</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">03</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">Adfelt Voice Orchestrator</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">Retell AI</span>
+                    <span class="project-tag-full">GoHighLevel</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 04 -->
+        <a href="project-dental.html" class="project-item reveal">
+            <div class="project-image-wrap">
+                <!-- AI Dental Appointment Booking: Retell AI + n8n + WhatsApp + Email -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#1A1714" />
+
+                    <!-- Subtle background dots -->
+                    <g fill="#F5F0E8" opacity="0.04">
+                        <circle cx="40" cy="40" r="1.5" />
+                        <circle cx="80" cy="40" r="1.5" />
+                        <circle cx="120" cy="40" r="1.5" />
+                        <circle cx="160" cy="40" r="1.5" />
+                        <circle cx="200" cy="40" r="1.5" />
+                        <circle cx="240" cy="40" r="1.5" />
+                        <circle cx="280" cy="40" r="1.5" />
+                        <circle cx="40" cy="90" r="1.5" />
+                        <circle cx="80" cy="90" r="1.5" />
+                        <circle cx="120" cy="90" r="1.5" />
+                        <circle cx="160" cy="90" r="1.5" />
+                        <circle cx="200" cy="90" r="1.5" />
+                        <circle cx="240" cy="90" r="1.5" />
+                        <circle cx="280" cy="90" r="1.5" />
+                        <circle cx="40" cy="140" r="1.5" />
+                        <circle cx="80" cy="140" r="1.5" />
+                        <circle cx="120" cy="140" r="1.5" />
+                        <circle cx="160" cy="140" r="1.5" />
+                        <circle cx="200" cy="140" r="1.5" />
+                        <circle cx="240" cy="140" r="1.5" />
+                        <circle cx="280" cy="140" r="1.5" />
+                    </g>
+
+                    <!-- Left: Phone icon with WhatsApp green incoming call -->
+                    <rect x="16" y="55" width="68" height="70" rx="8" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <!-- Phone handset -->
+                    <path
+                        d="M37 78 Q37 73 42 73 L44 77 Q42 78 42 80 Q44 85 48 87 Q50 87 51 85 L55 87 Q55 92 50 92 Q40 92 37 82 Z"
+                        fill="#25A850" opacity="0.8" />
+                    <!-- WhatsApp green circle behind phone -->
+                    <circle cx="46" cy="82" r="16" fill="#25A850" opacity="0.12" />
+                    <!-- Pulsing incoming call ring -->
+                    <circle cx="46" cy="82" r="18" stroke="#25A850" stroke-width="1" fill="none" opacity="0.4">
+                        <animate attributeName="r" values="16;24;16" dur="1.8s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.4;0;0.4" dur="1.8s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="46" cy="82" r="22" stroke="#25A850" stroke-width="0.7" fill="none" opacity="0.2">
+                        <animate attributeName="r" values="20;30;20" dur="1.8s" begin="0.3s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.2;0;0.2" dur="1.8s" begin="0.3s"
+                            repeatCount="indefinite" />
+                    </circle>
+                    <!-- Sound waves -->
+                    <path d="M60 78 Q64 82 60 86" stroke="#25A850" stroke-width="1" fill="none" stroke-linecap="round"
+                        opacity="0.6" />
+                    <path d="M64 75 Q70 82 64 89" stroke="#25A850" stroke-width="0.8" fill="none" stroke-linecap="round"
+                        opacity="0.3" />
+                    <text x="50" y="118" font-family="'DM Mono',monospace" font-size="5.5" fill="#C4A882"
+                        text-anchor="middle" opacity="0.7">Retell AI</text>
+
+                    <!-- Dashed arrow: Phone → n8n -->
+                    <defs>
+                        <marker id="arrowBronze9" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                            <path d="M0,0.5 L4,2.5 L0,4.5" fill="none" stroke="#8B6F47" stroke-width="1" />
+                        </marker>
+                    </defs>
+                    <path d="M84 90 C100 90 106 90 118 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze9)" />
+
+                    <!-- Center: n8n orchestrator node -->
+                    <rect x="118" y="62" width="84" height="56" rx="8" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.5" />
+                    <text x="160" y="92" font-family="'Cormorant Garamond',serif" font-size="22" fill="#C4A882"
+                        text-anchor="middle" font-style="italic">n8n</text>
+                    <text x="160" y="108" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8" opacity="0.45"
+                        text-anchor="middle">orchestrator</text>
+                    <!-- Animated pulse circle behind n8n node -->
+                    <circle cx="160" cy="90" r="34" stroke="#8B6F47" stroke-width="0.8" fill="none" opacity="0.2">
+                        <animate attributeName="r" values="28;42;28" dur="2.5s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.2;0;0.2" dur="2.5s" repeatCount="indefinite" />
+                    </circle>
+
+                    <!-- Dashed arrow: n8n → outputs -->
+                    <path d="M202 90 C216 90 222 90 236 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze9)" />
+
+                    <!-- Right: Stacked WhatsApp bubble + Envelope icons -->
+                    <rect x="236" y="55" width="68" height="70" rx="8" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+
+                    <!-- WhatsApp bubble icon (top) -->
+                    <rect x="252" y="63" width="36" height="26" rx="10" fill="none" stroke="#F5F0E8"
+                        stroke-width="1.2" />
+                    <path d="M262 89 L258 93 L266 89" fill="none" stroke="#F5F0E8" stroke-width="1" />
+                    <!-- WhatsApp "W" hint -->
+                    <circle cx="270" cy="76" r="6" fill="none" stroke="#25A850" stroke-width="1" opacity="0.5" />
+                    <path d="M267 76 Q268 73 270 73 Q272 73 272 75 Q272 77 270 77 Q270 79 271 80" stroke="#25A850"
+                        stroke-width="0.8" fill="none" stroke-linecap="round" opacity="0.5" />
+                    <text x="270" y="97" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8" opacity="0.5"
+                        text-anchor="middle">WhatsApp</text>
+
+                    <!-- Envelope icon (bottom) -->
+                    <rect x="255" y="101" width="30" height="18" rx="3" fill="none" stroke="#F5F0E8"
+                        stroke-width="1.1" />
+                    <path d="M255 103 L270 113 L285 103" stroke="#F5F0E8" stroke-width="0.9" fill="none" />
+                    <text x="270" y="126" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8" opacity="0.5"
+                        text-anchor="middle">Email</text>
+
+                    <!-- Bottom label -->
+                    <text x="160" y="155" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.7"
+                        text-anchor="middle">Dental AI</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">04</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">AI Dental Appointment Booking</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">Retell AI</span>
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">WhatsApp</span>
+                    <span class="project-tag-full">Email</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 05 -->
+        <a href="project-content-machine.html" class="project-item reveal reveal-delay-1">
+            <div class="project-image-wrap">
+                <!-- AI Post Content Machine: Google Sheets → GPT-4o → LinkedIn -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#EDE7D9" />
+
+                    <!-- Google Sheets grid icon (left) -->
+                    <g transform="translate(40,60)">
+                        <rect x="0" y="0" width="52" height="60" rx="5" fill="#F5F0E8" stroke="#8B6F47"
+                            stroke-width="1.2" />
+                        <!-- Grid lines -->
+                        <line x1="6" y1="14" x2="46" y2="14" stroke="#8B6F47" stroke-width="0.8" opacity="0.5" />
+                        <line x1="6" y1="24" x2="46" y2="24" stroke="#8B6F47" stroke-width="0.8" opacity="0.5" />
+                        <line x1="6" y1="34" x2="46" y2="34" stroke="#8B6F47" stroke-width="0.8" opacity="0.5" />
+                        <line x1="6" y1="44" x2="46" y2="44" stroke="#8B6F47" stroke-width="0.8" opacity="0.5" />
+                        <line x1="6" y1="54" x2="46" y2="54" stroke="#8B6F47" stroke-width="0.8" opacity="0.3" />
+                        <line x1="20" y1="6" x2="20" y2="54" stroke="#8B6F47" stroke-width="0.8" opacity="0.5" />
+                        <line x1="34" y1="6" x2="34" y2="54" stroke="#8B6F47" stroke-width="0.8" opacity="0.5" />
+                        <!-- Header row fill -->
+                        <rect x="6" y="6" width="40" height="8" rx="1" fill="#8B6F47" opacity="0.15" />
+                        <!-- Data cell highlights -->
+                        <rect x="7" y="15" width="12" height="8" rx="1" fill="#C4A882" opacity="0.25" />
+                        <rect x="21" y="25" width="12" height="8" rx="1" fill="#C4A882" opacity="0.18" />
+                        <rect x="7" y="35" width="12" height="8" rx="1" fill="#C4A882" opacity="0.12" />
+                    </g>
+                    <text x="66" y="132" font-family="'DM Mono',monospace" font-size="5" fill="#4A4440"
+                        text-anchor="middle">Sheets</text>
+
+                    <!-- Clock / 5AM schedule icon above Sheets -->
+                    <circle cx="66" cy="42" r="14" fill="#F5F0E8" stroke="#8B6F47" stroke-width="1" />
+                    <!-- Clock hands (5 AM) -->
+                    <line x1="66" y1="42" x2="66" y2="33" stroke="#1A1714" stroke-width="1.2" stroke-linecap="round" />
+                    <line x1="66" y1="42" x2="74" y2="42" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" />
+                    <circle cx="66" cy="42" r="1.5" fill="#8B6F47" />
+                    <text x="66" y="22" font-family="'DM Mono',monospace" font-size="6" fill="#8B6F47"
+                        text-anchor="middle">5AM</text>
+
+                    <!-- Dashed arrow: Sheets → GPT-4o -->
+                    <defs>
+                        <marker id="arrowBronze10" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                            <path d="M0,0.5 L4,2.5 L0,4.5" fill="none" stroke="#8B6F47" stroke-width="1" />
+                        </marker>
+                    </defs>
+                    <path d="M92 90 C108 90 112 90 122 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze10)" />
+
+                    <!-- GPT-4o center node -->
+                    <rect x="122" y="65" width="76" height="50" rx="6" fill="#1A1714" stroke="#8B6F47"
+                        stroke-width="1.5" />
+                    <text x="160" y="85" font-family="'DM Mono',monospace" font-size="9" fill="#C4A882"
+                        text-anchor="middle">GPT-4o</text>
+                    <!-- Animated token blocks -->
+                    <rect x="130" y="93" width="8" height="6" rx="1" fill="#C4A882" opacity="0.7">
+                        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite" />
+                    </rect>
+                    <rect x="141" y="93" width="10" height="6" rx="1" fill="#C4A882" opacity="0.5">
+                        <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" begin="0.2s"
+                            repeatCount="indefinite" />
+                    </rect>
+                    <rect x="154" y="93" width="9" height="6" rx="1" fill="#C4A882" opacity="0.35">
+                        <animate attributeName="opacity" values="0.35;0.1;0.35" dur="2s" begin="0.4s"
+                            repeatCount="indefinite" />
+                    </rect>
+                    <rect x="166" y="93" width="12" height="6" rx="1" fill="#C4A882" opacity="0.2">
+                        <animate attributeName="opacity" values="0.2;0.06;0.2" dur="2s" begin="0.6s"
+                            repeatCount="indefinite" />
+                    </rect>
+                    <rect x="181" y="93" width="8" height="6" rx="1" fill="#C4A882" opacity="0.12">
+                        <animate attributeName="opacity" values="0.12;0.03;0.12" dur="2s" begin="0.8s"
+                            repeatCount="indefinite" />
+                    </rect>
+
+                    <!-- Dashed arrow: GPT-4o → LinkedIn -->
+                    <path d="M198 90 C212 90 218 90 228 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze10)" />
+
+                    <!-- LinkedIn "in" logo (right) -->
+                    <rect x="228" y="65" width="52" height="50" rx="10" fill="none" stroke="#8B6F47"
+                        stroke-width="1.5" />
+                    <!-- "in" text -->
+                    <text x="254" y="98" font-family="'Cormorant Garamond',serif" font-size="28" fill="#8B6F47"
+                        text-anchor="middle" font-weight="400" font-style="italic">in</text>
+
+                    <!-- Bottom watermark -->
+                    <text x="160" y="155" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.6"
+                        text-anchor="middle">AI Post Content Machine</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">05</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">AI Post Content Machine</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">OpenAI</span>
+                    <span class="project-tag-full">LinkedIn</span>
+                    <span class="project-tag-full">Google Sheets</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 06 -->
+        <a href="project-ad-generator.html" class="project-item reveal">
+            <div class="project-image-wrap">
+                <!-- AI Product Ad Generator: Product → Drive → AI → Image/Video → Email -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#1A1714" />
+
+                    <!-- Subtle background dots -->
+                    <g fill="#F5F0E8" opacity="0.04">
+                        <circle cx="40" cy="40" r="1.5" />
+                        <circle cx="80" cy="40" r="1.5" />
+                        <circle cx="120" cy="40" r="1.5" />
+                        <circle cx="160" cy="40" r="1.5" />
+                        <circle cx="200" cy="40" r="1.5" />
+                        <circle cx="240" cy="40" r="1.5" />
+                        <circle cx="280" cy="40" r="1.5" />
+                        <circle cx="40" cy="90" r="1.5" />
+                        <circle cx="80" cy="90" r="1.5" />
+                        <circle cx="120" cy="90" r="1.5" />
+                        <circle cx="160" cy="90" r="1.5" />
+                        <circle cx="200" cy="90" r="1.5" />
+                        <circle cx="240" cy="90" r="1.5" />
+                        <circle cx="280" cy="90" r="1.5" />
+                        <circle cx="40" cy="140" r="1.5" />
+                        <circle cx="80" cy="140" r="1.5" />
+                        <circle cx="120" cy="140" r="1.5" />
+                        <circle cx="160" cy="140" r="1.5" />
+                        <circle cx="200" cy="140" r="1.5" />
+                        <circle cx="240" cy="140" r="1.5" />
+                        <circle cx="280" cy="140" r="1.5" />
+                    </g>
+
+                    <defs>
+                        <marker id="arrowBronze11" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                            <path d="M0,0.5 L4,2.5 L0,4.5" fill="none" stroke="#8B6F47" stroke-width="1" />
+                        </marker>
+                        <!-- Glow filter for AI node -->
+                        <filter id="aiGlow11" x="-40%" y="-40%" width="180%" height="180%">
+                            <feGaussianBlur stdDeviation="6" result="blur" />
+                            <feFlood flood-color="#C4A882" flood-opacity="0.2" result="color" />
+                            <feComposite in="color" in2="blur" operator="in" result="glow" />
+                            <feMerge>
+                                <feMergeNode in="glow" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- Left: Product box/package outline icon -->
+                    <g transform="translate(20,62)">
+                        <!-- Box front face -->
+                        <rect x="0" y="12" width="40" height="36" rx="3" fill="none" stroke="#F5F0E8"
+                            stroke-width="1.2" />
+                        <!-- Box top flap (3D lid) -->
+                        <path d="M0 12 L8 2 L48 2 L40 12" fill="none" stroke="#F5F0E8" stroke-width="1.2"
+                            stroke-linejoin="round" />
+                        <!-- Box right side -->
+                        <path d="M40 12 L48 2 L48 38 L40 48" fill="none" stroke="#F5F0E8" stroke-width="1.2"
+                            stroke-linejoin="round" />
+                        <!-- Center seam line on front -->
+                        <line x1="20" y1="12" x2="20" y2="48" stroke="#F5F0E8" stroke-width="0.7" opacity="0.4" />
+                        <!-- Horizontal tape line -->
+                        <line x1="0" y1="28" x2="40" y2="28" stroke="#F5F0E8" stroke-width="0.7" opacity="0.3" />
+                    </g>
+                    <text x="40" y="120" font-family="'DM Mono',monospace" font-size="5" fill="#C4A882"
+                        text-anchor="middle" opacity="0.6">Product</text>
+
+                    <!-- Dashed arrow: Product → AI with small upward arrow + "Drive" label -->
+                    <path d="M68 90 C80 90 84 90 96 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze11)" />
+                    <!-- Upload arrow icon -->
+                    <path d="M82 82 L82 72 M78 76 L82 72 L86 76" stroke="#C4A882" stroke-width="1" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <text x="82" y="68" font-family="'DM Mono',monospace" font-size="5" fill="#C4A882"
+                        text-anchor="middle" opacity="0.7">Drive</text>
+
+                    <!-- Center: Large AI node with glow -->
+                    <rect x="96" y="62" width="88" height="56" rx="10" fill="#2C2820" stroke="#C4A882"
+                        stroke-width="1.5" filter="url(#aiGlow11)" />
+                    <text x="140" y="98" font-family="'Cormorant Garamond',serif" font-size="36" fill="#C4A882"
+                        text-anchor="middle" font-style="italic">AI</text>
+                    <!-- Animated pulse ring -->
+                    <circle cx="140" cy="90" r="34" stroke="#C4A882" stroke-width="0.8" fill="none" opacity="0.2">
+                        <animate attributeName="r" values="28;44;28" dur="2.8s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.2;0;0.2" dur="2.8s" repeatCount="indefinite" />
+                    </circle>
+
+                    <!-- Dashed arrow: AI → outputs (splits into two) -->
+                    <path d="M184 90 C196 90 200 90 210 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" />
+                    <!-- Fork: top branch to Image -->
+                    <path d="M210 90 C216 90 218 75 224 75" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze11)" />
+                    <!-- Fork: bottom branch to Video -->
+                    <path d="M210 90 C216 90 218 105 224 105" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze11)" />
+
+                    <!-- Top output: Image frame icon (landscape with mountain) -->
+                    <rect x="224" y="62" width="34" height="26" rx="4" fill="#2C2820" stroke="#F5F0E8"
+                        stroke-width="1" />
+                    <!-- Mountain shape inside frame -->
+                    <path d="M229 82 L236 72 L240 77 L244 70 L253 82 Z" fill="none" stroke="#F5F0E8" stroke-width="0.8"
+                        stroke-linejoin="round" />
+                    <!-- Sun circle -->
+                    <circle cx="248" cy="68" r="2.5" fill="none" stroke="#F5F0E8" stroke-width="0.8" />
+                    <text x="241" y="96" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        text-anchor="middle" opacity="0.6">Image</text>
+
+                    <!-- Bottom output: Video play button triangle -->
+                    <rect x="224" y="100" width="34" height="26" rx="4" fill="#2C2820" stroke="#F5F0E8"
+                        stroke-width="1" />
+                    <!-- Play triangle -->
+                    <path d="M237 107 L237 121 L249 114 Z" fill="none" stroke="#F5F0E8" stroke-width="1"
+                        stroke-linejoin="round" />
+                    <text x="241" y="134" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        text-anchor="middle" opacity="0.6">Video</text>
+
+                    <!-- Dashed arrow: Outputs → Email -->
+                    <path d="M258 75 C264 75 266 90 272 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" />
+                    <path d="M258 113 C264 113 266 90 272 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" />
+                    <path d="M272 90 L284 90" stroke="#8B6F47" stroke-width="1.2" fill="none" stroke-dasharray="4 2"
+                        marker-end="url(#arrowBronze11)" />
+
+                    <!-- Far right: Envelope icon with incoming arrow -->
+                    <g transform="translate(270,72)">
+                        <rect x="14" y="4" width="28" height="18" rx="3" fill="none" stroke="#F5F0E8"
+                            stroke-width="1.1" />
+                        <path d="M14 6 L28 16 L42 6" stroke="#F5F0E8" stroke-width="0.9" fill="none" />
+                        <!-- Small arrow pointing into envelope -->
+                        <path d="M6 13 L14 13" stroke="#C4A882" stroke-width="1" fill="none" stroke-linecap="round" />
+                        <path d="M10 10 L14 13 L10 16" stroke="#C4A882" stroke-width="1" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                    <text x="298" y="120" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        text-anchor="middle" opacity="0.6">Email</text>
+
+                    <!-- Animated data packet dot traveling along main path -->
+                    <circle r="3" fill="#C4A882" opacity="0.9">
+                        <animateMotion dur="3.5s" repeatCount="indefinite"
+                            path="M40 90 C60 90 80 90 140 90 C180 90 200 90 210 90 C216 90 218 75 241 75 C264 75 270 82 298 85" />
+                        <animate attributeName="opacity" values="0;0.9;0.9;0" dur="3.5s" repeatCount="indefinite" />
+                    </circle>
+
+                    <!-- Bottom label -->
+                    <text x="160" y="160" font-family="'DM Mono',monospace" font-size="7" fill="#C4A882" opacity="0.6"
+                        text-anchor="middle">Ad Generator</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">06</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">AI Product Ad Generator</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">OpenAI</span>
+                    <span class="project-tag-full">Runway ML</span>
+                    <span class="project-tag-full">Gmail</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 07 -->
+        <a href="project-viral-searcher.html" class="project-item reveal reveal-delay-1">
+            <div class="project-image-wrap">
+                <!-- YouTube Viral Searcher: Keyword → Score → Ranked Sheets -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#EDE7D9" />
+
+                    <defs>
+                        <marker id="arrowBronze12" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                            <path d="M0,0.5 L4,2.5 L0,4.5" fill="none" stroke="#8B6F47" stroke-width="1" />
+                        </marker>
+                        <linearGradient id="ytGrad12" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#A04040" />
+                            <stop offset="100%" stop-color="#8B6F47" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- LEFT: Keyword input form -->
+                    <g transform="translate(20,62)">
+                        <rect x="0" y="0" width="64" height="56" rx="5" fill="#F5F0E8" stroke="#1A1714"
+                            stroke-width="1.2" />
+                        <!-- Label -->
+                        <text x="6" y="12" font-family="'DM Mono',monospace" font-size="5" fill="#4A4440"
+                            opacity="0.7">Keyword</text>
+                        <!-- Field 1 -->
+                        <rect x="6" y="16" width="52" height="8" rx="2" fill="#EDE7D9" stroke="#8B6F47"
+                            stroke-width="0.8" />
+                        <line x1="10" y1="20" x2="40" y2="20" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                        <!-- Field 2 -->
+                        <rect x="6" y="28" width="52" height="8" rx="2" fill="#EDE7D9" stroke="#8B6F47"
+                            stroke-width="0.8" />
+                        <line x1="10" y1="32" x2="36" y2="32" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                        <!-- Field 3 -->
+                        <rect x="6" y="40" width="52" height="8" rx="2" fill="#EDE7D9" stroke="#8B6F47"
+                            stroke-width="0.8" />
+                        <line x1="10" y1="44" x2="44" y2="44" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                    </g>
+                    <text x="52" y="130" font-family="'DM Mono',monospace" font-size="5" fill="#4A4440"
+                        text-anchor="middle" opacity="0.6">Input</text>
+
+                    <!-- Dashed arrow: Form → Score -->
+                    <path d="M84 90 C98 90 104 90 118 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze12)" />
+
+                    <!-- YouTube play button icon above center node -->
+                    <g transform="translate(138,30)">
+                        <rect x="0" y="0" width="44" height="28" rx="8" fill="url(#ytGrad12)" opacity="0.85" />
+                        <path d="M16 8 L16 20 L30 14 Z" fill="#F5F0E8" opacity="0.9" />
+                    </g>
+                    <!-- Thin line connecting YT icon to score node -->
+                    <line x1="160" y1="58" x2="160" y2="68" stroke="#8B6F47" stroke-width="0.8" opacity="0.35"
+                        stroke-dasharray="2 2" />
+
+                    <!-- CENTER: Scoring node -->
+                    <rect x="118" y="68" width="84" height="44" rx="6" fill="#1A1714" stroke="#8B6F47"
+                        stroke-width="1.5" />
+                    <!-- Star icon -->
+                    <g transform="translate(130,76)">
+                        <path d="M8 0 L9.8 5.5 L16 5.8 L11.2 9.5 L13 16 L8 12 L3 16 L4.8 9.5 L0 5.8 L6.2 5.5 Z"
+                            fill="#C4A882" opacity="0.8" transform="scale(0.7)" />
+                    </g>
+                    <!-- Formula text -->
+                    <text x="160" y="88" font-family="'DM Mono',monospace" font-size="6" fill="#F5F0E8"
+                        text-anchor="middle" opacity="0.5">views / subs^(2/3)</text>
+                    <!-- Score sub-label -->
+                    <text x="160" y="104" font-family="'DM Mono',monospace" font-size="5" fill="#C4A882"
+                        text-anchor="middle" opacity="0.5">score</text>
+
+                    <!-- Dashed arrow: Score → Sheets -->
+                    <path d="M202 90 C216 90 222 90 234 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze12)" />
+
+                    <!-- RIGHT: Google Sheets grid with bar chart -->
+                    <g transform="translate(234,62)">
+                        <rect x="0" y="0" width="60" height="56" rx="5" fill="#F5F0E8" stroke="#8B6F47"
+                            stroke-width="1.2" />
+                        <!-- Grid lines -->
+                        <line x1="5" y1="12" x2="55" y2="12" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                        <line x1="5" y1="22" x2="55" y2="22" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                        <line x1="5" y1="32" x2="55" y2="32" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                        <line x1="5" y1="42" x2="55" y2="42" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                        <line x1="20" y1="5" x2="20" y2="50" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                        <line x1="36" y1="5" x2="36" y2="50" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                        <!-- Header row -->
+                        <rect x="5" y="5" width="50" height="7" rx="1" fill="#8B6F47" opacity="0.15" />
+                        <!-- Bar chart bars (bronze) -->
+                        <rect x="22" y="17" width="12" height="4" rx="1" fill="#C4A882" opacity="0.7" />
+                        <rect x="22" y="27" width="9" height="4" rx="1" fill="#C4A882" opacity="0.5" />
+                        <rect x="22" y="37" width="6" height="4" rx="1" fill="#C4A882" opacity="0.35" />
+                        <rect x="22" y="47" width="4" height="3" rx="1" fill="#8B6F47" opacity="0.2" />
+                    </g>
+                    <text x="264" y="130" font-family="'DM Mono',monospace" font-size="5" fill="#4A4440"
+                        text-anchor="middle" opacity="0.6">Sheets</text>
+
+                    <!-- Rank numbers to the right of Sheets -->
+                    <text x="300" y="78" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47"
+                        opacity="0.6">01</text>
+                    <text x="300" y="90" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47"
+                        opacity="0.45">02</text>
+                    <text x="300" y="102" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47"
+                        opacity="0.3">03</text>
+
+                    <!-- Bottom label -->
+                    <text x="160" y="155" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.6"
+                        text-anchor="middle">Viral Searcher</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">07</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">YouTube Viral Searcher</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">Apify</span>
+                    <span class="project-tag-full">Google Sheets</span>
+                    <span class="project-tag-full">YouTube</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 08 -->
+        <a href="project-whatsapp-ai.html" class="project-item reveal">
+            <div class="project-image-wrap">
+                <!-- WhatsApp AI Sales Assistant: Phone chat → Switch → List/Carousel/Order -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#1A1714" />
+
+                    <!-- Subtle background dots -->
+                    <g fill="#F5F0E8" opacity="0.04">
+                        <circle cx="40" cy="40" r="1.5" />
+                        <circle cx="80" cy="40" r="1.5" />
+                        <circle cx="120" cy="40" r="1.5" />
+                        <circle cx="160" cy="40" r="1.5" />
+                        <circle cx="200" cy="40" r="1.5" />
+                        <circle cx="240" cy="40" r="1.5" />
+                        <circle cx="280" cy="40" r="1.5" />
+                        <circle cx="40" cy="90" r="1.5" />
+                        <circle cx="80" cy="90" r="1.5" />
+                        <circle cx="120" cy="90" r="1.5" />
+                        <circle cx="160" cy="90" r="1.5" />
+                        <circle cx="200" cy="90" r="1.5" />
+                        <circle cx="240" cy="90" r="1.5" />
+                        <circle cx="280" cy="90" r="1.5" />
+                        <circle cx="40" cy="140" r="1.5" />
+                        <circle cx="80" cy="140" r="1.5" />
+                        <circle cx="120" cy="140" r="1.5" />
+                        <circle cx="160" cy="140" r="1.5" />
+                        <circle cx="200" cy="140" r="1.5" />
+                        <circle cx="240" cy="140" r="1.5" />
+                        <circle cx="280" cy="140" r="1.5" />
+                    </g>
+
+                    <defs>
+                        <marker id="arrowBronze13" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                            <path d="M0,0.5 L4,2.5 L0,4.5" fill="none" stroke="#8B6F47" stroke-width="1" />
+                        </marker>
+                    </defs>
+
+                    <!-- LEFT: Phone screen mockup with WhatsApp chat -->
+                    <rect x="16" y="20" width="70" height="130" rx="10" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <!-- Phone notch -->
+                    <rect x="36" y="22" width="20" height="4" rx="2" fill="#1A1714" />
+                    <!-- Chat area background -->
+                    <rect x="22" y="32" width="58" height="100" rx="4" fill="#1A1714" opacity="0.5" />
+
+                    <!-- Green bubble (left) — user message "Show laptops" -->
+                    <rect x="26" y="38" width="44" height="14" rx="6" fill="#25A850" opacity="0.75" />
+                    <text x="32" y="48" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8">Show
+                        laptops</text>
+
+                    <!-- Cream bubble (right) — bot response with mini product card -->
+                    <rect x="32" y="58" width="44" height="36" rx="6" fill="#F5F0E8" opacity="0.9" />
+                    <!-- Product card header line -->
+                    <rect x="36" y="62" width="30" height="3" rx="1" fill="#8B6F47" opacity="0.4" />
+                    <!-- 3 small colored rectangles (carousel items) -->
+                    <rect x="36" y="69" width="10" height="8" rx="2" fill="#8B6F47" opacity="0.6" />
+                    <rect x="49" y="69" width="10" height="8" rx="2" fill="#C4A882" opacity="0.5" />
+                    <rect x="62" y="69" width="10" height="8" rx="2" fill="#8B6F47" opacity="0.35" />
+                    <!-- Price line -->
+                    <rect x="36" y="81" width="20" height="3" rx="1" fill="#4A4440" opacity="0.4" />
+                    <rect x="58" y="81" width="12" height="3" rx="1" fill="#C4A882" opacity="0.3" />
+
+                    <!-- Another green bubble -->
+                    <rect x="26" y="100" width="36" height="12" rx="5" fill="#25A850" opacity="0.5" />
+                    <rect x="30" y="104" width="24" height="3" rx="1" fill="#F5F0E8" opacity="0.4" />
+
+                    <!-- WhatsApp icon hint -->
+                    <circle cx="30" cy="126" r="4" fill="#25A850" opacity="0.25" />
+                    <text x="36" y="129" font-family="'DM Mono',monospace" font-size="4" fill="#F5F0E8"
+                        opacity="0.4">WhatsApp</text>
+
+                    <!-- Dashed arrow: Phone → Switch diamond -->
+                    <path d="M86 90 C100 90 108 90 120 90" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="4 2" marker-end="url(#arrowBronze13)" />
+
+                    <!-- CENTER: Diamond / Switch node -->
+                    <g transform="translate(160,90)">
+                        <rect x="-22" y="-22" width="44" height="44" rx="4" fill="#2C2820" stroke="#8B6F47"
+                            stroke-width="1.5" transform="rotate(45)" />
+                    </g>
+                    <!-- Switch label -->
+                    <text x="160" y="93" font-family="'DM Mono',monospace" font-size="7" fill="#F5F0E8"
+                        text-anchor="middle">Switch</text>
+
+                    <!-- Lines from diamond to output nodes -->
+                    <!-- Top line: to List Menu -->
+                    <path d="M182 78 C196 65 210 55 228 55" stroke="#8B6F47" stroke-width="1" fill="none"
+                        stroke-dasharray="3 2" />
+                    <!-- Middle line: to Carousel -->
+                    <path d="M191 90 C204 90 214 90 228 90" stroke="#8B6F47" stroke-width="1" fill="none"
+                        stroke-dasharray="3 2" />
+                    <!-- Bottom line: to Order Track -->
+                    <path d="M182 102 C196 115 210 125 228 125" stroke="#8B6F47" stroke-width="1" fill="none"
+                        stroke-dasharray="3 2" />
+
+                    <!-- RIGHT: Output node 1 — List Menu -->
+                    <rect x="228" y="42" width="72" height="26" rx="5" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1" />
+                    <!-- List icon (3 horizontal lines) -->
+                    <line x1="235" y1="50" x2="247" y2="50" stroke="#C4A882" stroke-width="1.2"
+                        stroke-linecap="round" />
+                    <line x1="235" y1="55" x2="247" y2="55" stroke="#C4A882" stroke-width="1.2" stroke-linecap="round"
+                        opacity="0.7" />
+                    <line x1="235" y1="60" x2="247" y2="60" stroke="#C4A882" stroke-width="1.2" stroke-linecap="round"
+                        opacity="0.4" />
+                    <text x="253" y="57" font-family="'DM Mono',monospace" font-size="6" fill="#F5F0E8"
+                        opacity="0.6">List Menu</text>
+
+                    <!-- RIGHT: Output node 2 — Carousel -->
+                    <rect x="228" y="77" width="72" height="26" rx="5" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1" />
+                    <!-- Grid icon (2x2 small squares) -->
+                    <rect x="235" y="83" width="5" height="5" rx="1" fill="#C4A882" opacity="0.7" />
+                    <rect x="242" y="83" width="5" height="5" rx="1" fill="#C4A882" opacity="0.5" />
+                    <rect x="235" y="90" width="5" height="5" rx="1" fill="#C4A882" opacity="0.5" />
+                    <rect x="242" y="90" width="5" height="5" rx="1" fill="#C4A882" opacity="0.3" />
+                    <text x="253" y="93" font-family="'DM Mono',monospace" font-size="6" fill="#F5F0E8"
+                        opacity="0.6">Carousel</text>
+
+                    <!-- RIGHT: Output node 3 — Order Track -->
+                    <rect x="228" y="112" width="72" height="26" rx="5" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1" />
+                    <!-- Package icon (box outline) -->
+                    <rect x="235" y="118" width="12" height="10" rx="1.5" fill="none" stroke="#C4A882"
+                        stroke-width="1" />
+                    <line x1="235" y1="122" x2="247" y2="122" stroke="#C4A882" stroke-width="0.7" opacity="0.5" />
+                    <line x1="241" y1="118" x2="241" y2="128" stroke="#C4A882" stroke-width="0.7" opacity="0.5" />
+                    <text x="253" y="127" font-family="'DM Mono',monospace" font-size="6" fill="#F5F0E8"
+                        opacity="0.6">Order Track</text>
+
+                    <!-- Animated packet dot bouncing between nodes -->
+                    <circle r="3" fill="#C4A882" opacity="0.9">
+                        <animateMotion dur="3s" repeatCount="indefinite"
+                            path="M51 90 C86 90 120 90 160 90 C182 78 210 55 264 55 C210 55 182 78 160 90 C182 102 210 125 264 125 C210 125 182 102 160 90"
+                            keyPoints="0;0.35;0.6;0.75;0.6;0.85;1" keyTimes="0;0.25;0.4;0.55;0.65;0.8;1"
+                            calcMode="linear" />
+                        <animate attributeName="opacity" values="0;0.9;0.9;0.9;0.9;0.9;0" dur="3s"
+                            repeatCount="indefinite" />
+                    </circle>
+
+                    <!-- Bottom label -->
+                    <text x="160" y="160" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.6"
+                        text-anchor="middle">WhatsApp AI</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">08</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">WhatsApp AI Sales Assistant</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">OpenAI</span>
+                    <span class="project-tag-full">WhatsApp API</span>
+                    <span class="project-tag-full">Cloudflare D1</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 09 -->
+        <a href="project-personal-assistant.html" class="project-item reveal reveal-delay-1">
+            <div class="project-image-wrap">
+                <!-- Personal Assistant AI -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#EDE7D9" />
+
+                    <defs>
+                        <marker id="arrowBronze14" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                            <path d="M0,0.5 L4,2.5 L0,4.5" fill="none" stroke="#8B6F47" stroke-width="1" />
+                        </marker>
+                    </defs>
+
+                    <!-- Left: Telegram & Mic -->
+                    <circle cx="60" cy="80" r="22" fill="#2C2820" stroke="#8B6F47" stroke-width="1.5" />
+                    <path d="M48 84 L72 72 L64 92 L57 85 L48 84 Z" fill="#F5F0E8" stroke="#F5F0E8" stroke-width="1"
+                        stroke-linejoin="round" />
+                    <path d="M57 85 L59 94 L62 88" fill="#F5F0E8" stroke="#F5F0E8" stroke-width="1"
+                        stroke-linejoin="round" />
+
+                    <!-- Speech bubble -->
+                    <rect x="20" y="45" width="30" height="20" rx="8" fill="#F5F0E8" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <path d="M25 65 L30 65 L25 72 Z" fill="#F5F0E8" />
+                    <path d="M25 65 L25 72 L30 65" fill="none" stroke="#8B6F47" stroke-width="1.2"
+                        stroke-linejoin="round" />
+                    <line x1="25.5" y1="65" x2="29.5" y2="65" stroke="#F5F0E8" stroke-width="2" />
+
+                    <circle cx="28" cy="55" r="1.5" fill="#8B6F47">
+                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0s"
+                            repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="35" cy="55" r="1.5" fill="#8B6F47">
+                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.5s"
+                            repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="42" cy="55" r="1.5" fill="#8B6F47">
+                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="1s"
+                            repeatCount="indefinite" />
+                    </circle>
+
+                    <!-- Mic icon -->
+                    <rect x="56" y="112" width="8" height="14" rx="4" fill="none" stroke="#8B6F47" stroke-width="1.5" />
+                    <path d="M52 118 Q60 126 68 118" fill="none" stroke="#8B6F47" stroke-width="1.5"
+                        stroke-linecap="round" />
+                    <line x1="60" y1="123" x2="60" y2="128" stroke="#8B6F47" stroke-width="1.5"
+                        stroke-linecap="round" />
+                    <!-- 3 wavy lines suggesting voice input -->
+                    <path d="M72 114 Q75 117 72 120" fill="none" stroke="#C4A882" stroke-width="1.2"
+                        stroke-linecap="round" />
+                    <path d="M76 111 Q80 117 76 123" fill="none" stroke="#C4A882" stroke-width="1.2"
+                        stroke-linecap="round" />
+                    <path d="M80 108 Q85 117 80 126" fill="none" stroke="#C4A882" stroke-width="1.2"
+                        stroke-linecap="round" />
+
+                    <!-- Arrow: Telegram to AI Agent -->
+                    <path d="M86 80 L115 80" stroke="#8B6F47" stroke-width="1.2" fill="none" stroke-dasharray="3 2"
+                        marker-end="url(#arrowBronze14)" />
+
+                    <!-- Center: AI Agent -->
+                    <rect x="120" y="50" width="80" height="60" rx="8" fill="#1A1714" stroke="#8B6F47"
+                        stroke-width="1.5" />
+                    <text x="160" y="100" font-family="'DM Mono',monospace" font-size="7" fill="#F5F0E8"
+                        text-anchor="middle">AI Agent</text>
+                    <!-- 3 circles connected by lines -->
+                    <line x1="145" y1="65" x2="160" y2="80" stroke="#C4A882" stroke-width="1.2" />
+                    <line x1="175" y1="65" x2="160" y2="80" stroke="#C4A882" stroke-width="1.2" />
+                    <line x1="145" y1="65" x2="175" y2="65" stroke="#C4A882" stroke-width="1.2" />
+                    <circle cx="145" cy="65" r="4" fill="#8B6F47" />
+                    <circle cx="175" cy="65" r="4" fill="#8B6F47" />
+                    <circle cx="160" cy="80" r="4" fill="#8B6F47" />
+
+                    <!-- Arrows: AI Agent to Notion Cards -->
+                    <path d="M200 70 C215 70 220 51 236 51" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="3 2" marker-end="url(#arrowBronze14)" />
+                    <path d="M200 80 C215 80 220 77 231 77" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="3 2" marker-end="url(#arrowBronze14)" />
+                    <path d="M200 90 C215 90 215 103 226 103" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-dasharray="3 2" marker-end="url(#arrowBronze14)" />
+
+                    <!-- Right: 3 Notion-style Cards -->
+                    <!-- Idea Card -->
+                    <rect x="240" y="40" width="55" height="22" rx="3" fill="#F5F0E8" stroke="#8B6F47"
+                        stroke-width="1" />
+                    <text x="245" y="54" font-family="'DM Mono',monospace" font-size="6" fill="#4A4440">💡 Idea</text>
+
+                    <!-- Task Card -->
+                    <rect x="235" y="66" width="55" height="22" rx="3" fill="#F5F0E8" stroke="#8B6F47"
+                        stroke-width="1" />
+                    <text x="240" y="80" font-family="'DM Mono',monospace" font-size="6" fill="#4A4440">✅ Task</text>
+
+                    <!-- Workout Card -->
+                    <rect x="230" y="92" width="55" height="22" rx="3" fill="#F5F0E8" stroke="#8B6F47"
+                        stroke-width="1" />
+                    <text x="235" y="106" font-family="'DM Mono',monospace" font-size="6" fill="#4A4440">💪
+                        Workout</text>
+
+                    <!-- Bottom Label -->
+                    <text x="160" y="160" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.6"
+                        text-anchor="middle">Personal Assistant</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">09</span>
+                    <span class="project-year-full">2026</span>
+                </div>
+                <h2 class="project-name-full">Personal Assistant AI</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">Telegram</span>
+                    <span class="project-tag-full">OpenAI</span>
+                    <span class="project-tag-full">Notion</span>
+                </div>
+            </div>
+        </a>
+    <!-- Project 10 -->
+        <a href="project-hiring.html" class="project-item reveal reveal-delay-1">
+            <div class="project-image-wrap">
+                <!-- AI Hiring Orchestrator: Firestore + AI Logic + Sheets -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#1A1714" />
+                    <!-- Candidate cards flowing in -->
+                    <rect x="14" y="48" width="52" height="32" rx="5" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1" />
+                    <circle cx="28" cy="60" r="6" fill="none" stroke="#C4A882" stroke-width="1" />
+                    <circle cx="28" cy="57" r="2.5" fill="#C4A882" opacity="0.5" />
+                    <rect x="37" y="55" width="22" height="3" rx="1" fill="#8B6F47" opacity="0.4" />
+                    <rect x="37" y="61" width="16" height="2" rx="1" fill="#8B6F47" opacity="0.25" />
+                    <text x="33" y="88" font-family="'DM Mono',monospace" font-size="5" fill="#C4A882"
+                        text-anchor="middle" opacity="0.6">Resume</text>
+
+                    <rect x="14" y="95" width="52" height="32" rx="5" fill="#2C2820" stroke="#8B6F47" stroke-width="1"
+                        opacity="0.7" />
+                    <circle cx="28" cy="107" r="6" fill="none" stroke="#C4A882" stroke-width="1" opacity="0.6" />
+                    <circle cx="28" cy="104" r="2.5" fill="#C4A882" opacity="0.3" />
+                    <rect x="37" y="102" width="22" height="3" rx="1" fill="#8B6F47" opacity="0.3" />
+                    <rect x="37" y="108" width="16" height="2" rx="1" fill="#8B6F47" opacity="0.2" />
+
+                    <!-- Arrow to AI evaluator -->
+                    <path d="M66 90 L92 90" stroke="#8B6F47" stroke-width="1.2" fill="none" stroke-dasharray="3 2" />
+                    <polyline points="90,87.5 93,90 90,92.5" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-linecap="round" />
+
+                    <!-- AI Evaluator (center brain) -->
+                    <rect x="92" y="58" width="90" height="64" rx="8" fill="#2C2820" stroke="#C4A882"
+                        stroke-width="1.5" />
+                    <path
+                        d="M117 85 L122 72 L127 80 L130 76 L135 88 L140 72 L143 85 L148 78 L153 90 L157 76 L162 85 L167 72"
+                        stroke="#C4A882" stroke-width="1.2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <text x="137" y="108" font-family="'DM Mono',monospace" font-size="5.5" fill="#F5F0E8" opacity="0.6"
+                        text-anchor="middle">AI Evaluator</text>
+                    <!-- Score badges -->
+                    <rect x="97" y="110" width="18" height="8" rx="2" fill="#8B6F47" opacity="0.7" />
+                    <text x="106" y="117" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        text-anchor="middle">92%</text>
+                    <rect x="118" y="110" width="18" height="8" rx="2" fill="#8B6F47" opacity="0.4" />
+                    <text x="127" y="117" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        text-anchor="middle">74%</text>
+
+                    <!-- Arrow to Sheets -->
+                    <path d="M182 90 L206 90" stroke="#8B6F47" stroke-width="1.2" fill="none" stroke-dasharray="3 2" />
+                    <polyline points="204,87.5 207,90 204,92.5" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-linecap="round" />
+
+                    <!-- Google Sheets node -->
+                    <rect x="206" y="62" width="70" height="56" rx="7" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <!-- Sheet grid -->
+                    <rect x="218" y="72" width="46" height="36" rx="2" fill="#1A1714" opacity="0.5" />
+                    <line x1="218" y1="81" x2="264" y2="81" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                    <line x1="218" y1="90" x2="264" y2="90" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                    <line x1="218" y1="99" x2="264" y2="99" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                    <line x1="234" y1="72" x2="234" y2="108" stroke="#8B6F47" stroke-width="0.7" opacity="0.4" />
+                    <rect x="219" y="73" width="14" height="7" rx="1" fill="#C4A882" opacity="0.5" />
+                    <rect x="219" y="82" width="14" height="7" rx="1" fill="#8B6F47" opacity="0.25" />
+                    <text x="241" y="116" font-family="'DM Mono',monospace" font-size="5" fill="#C4A882"
+                        text-anchor="middle" opacity="0.6">Sheets</text>
+
+                    <!-- Firestore badge -->
+                    <rect x="276" y="72" width="36" height="18" rx="3" fill="#8B6F47" opacity="0.4" />
+                    <text x="294" y="84" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        text-anchor="middle">Firestore</text>
+
+                    <text x="160" y="155" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.6"
+                        text-anchor="middle">AI Hiring Orchestrator</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">10</span>
+                    <span class="project-year-full">2025</span>
+                </div>
+                <h2 class="project-name-full">AI Hiring Orchestrator</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">Firestore</span>
+                    <span class="project-tag-full">AI Logic</span>
+                    <span class="project-tag-full">Google Sheets</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 11 -->
+        <a href="project-travel-planner.html" class="project-item reveal">
+            <div class="project-image-wrap">
+                <!-- Travel Planner AI: n8n + OpenAI + Telegram -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#EDE7D9" />
+                    <!-- World map dots (simplified) -->
+                    <g fill="#1A1714" opacity="0.06">
+                        <circle cx="70" cy="70" r="2" />
+                        <circle cx="90" cy="60" r="2" />
+                        <circle cx="110" cy="65" r="2" />
+                        <circle cx="130" cy="55" r="2" />
+                        <circle cx="150" cy="70" r="2" />
+                        <circle cx="170" cy="60" r="2" />
+                        <circle cx="190" cy="75" r="2" />
+                        <circle cx="210" cy="65" r="2" />
+                        <circle cx="230" cy="80" r="2" />
+                        <circle cx="250" cy="70" r="2" />
+                        <circle cx="270" cy="85" r="2" />
+                        <circle cx="75" cy="90" r="2" />
+                        <circle cx="95" cy="80" r="2" />
+                        <circle cx="115" cy="95" r="2" />
+                        <circle cx="135" cy="85" r="2" />
+                        <circle cx="155" cy="100" r="2" />
+                        <circle cx="175" cy="90" r="2" />
+                        <circle cx="195" cy="105" r="2" />
+                        <circle cx="215" cy="95" r="2" />
+                    </g>
+                    <!-- Route arc -->
+                    <path d="M60 120 Q160 40 260 120" stroke="#8B6F47" stroke-width="1.5" fill="none"
+                        stroke-dasharray="5 3" opacity="0.5" />
+                    <!-- Location pin origin -->
+                    <circle cx="60" cy="120" r="5" fill="#8B6F47" opacity="0.7" />
+                    <line x1="60" y1="108" x2="60" y2="115" stroke="#8B6F47" stroke-width="1.2" />
+                    <!-- Location pin dest -->
+                    <circle cx="260" cy="120" r="5" fill="#C4A882" />
+                    <line x1="260" y1="108" x2="260" y2="115" stroke="#C4A882" stroke-width="1.2" />
+
+                    <!-- Telegram bot bubble (left) -->
+                    <rect x="14" y="30" width="80" height="36" rx="8" fill="#F5F0E8" stroke="#8B6F47"
+                        stroke-width="1" />
+                    <path d="M18 43 L24 36 L30 43 L26 43 L26 60 L22 60 L22 43 Z" fill="#8B6F47" opacity="0.3"
+                        transform="scale(0.6) translate(20,28)" />
+                    <text x="30" y="46" font-family="'DM Mono',monospace" font-size="6.5" fill="#4A4440">Plan Paris
+                        trip</text>
+                    <text x="30" y="57" font-family="'DM Mono',monospace" font-size="6.5" fill="#4A4440">for 5 days
+                        🗺️</text>
+                    <!-- Triangle pointer -->
+                    <path d="M14 52 L6 56 L14 60" fill="#F5F0E8" stroke="#8B6F47" stroke-width="1" />
+
+                    <!-- n8n + OpenAI center -->
+                    <rect x="116" y="62" width="88" height="56" rx="8" fill="#1A1714" stroke="#C4A882"
+                        stroke-width="1.4" />
+                    <text x="160" y="88" font-family="'Cormorant Garamond',serif" font-size="18" fill="#C4A882"
+                        text-anchor="middle" font-style="italic">n8n</text>
+                    <text x="160" y="102" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8" opacity="0.5"
+                        text-anchor="middle">+ OpenAI GPT-4o</text>
+
+                    <!-- Response bubble (right) -->
+                    <rect x="226" y="30" width="86" height="50" rx="8" fill="#F5F0E8" stroke="#C4A882"
+                        stroke-width="1" />
+                    <text x="236" y="46" font-family="'DM Mono',monospace" font-size="5.5" fill="#4A4440">Day 1: Eiffel
+                        Tower</text>
+                    <text x="236" y="56" font-family="'DM Mono',monospace" font-size="5.5" fill="#4A4440">Day 2:
+                        Louvre…</text>
+                    <text x="236" y="66" font-family="'DM Mono',monospace" font-size="5.5" fill="#8B6F47">Hotels +
+                        Budget ✓</text>
+                    <path d="M312 50 L320 54 L312 58" fill="#F5F0E8" stroke="#C4A882" stroke-width="1" />
+
+                    <!-- Arrows -->
+                    <path d="M94 48 C104 48 108 72 116 80" stroke="#8B6F47" stroke-width="1.1" fill="none"
+                        stroke-dasharray="3 2" />
+                    <path d="M204 80 C212 72 218 50 226 48" stroke="#C4A882" stroke-width="1.1" fill="none"
+                        stroke-dasharray="3 2" />
+
+                    <text x="160" y="155" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.7"
+                        text-anchor="middle">Travel Planner AI</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">11</span>
+                    <span class="project-year-full">2025</span>
+                </div>
+                <h2 class="project-name-full">Travel Planner AI</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">OpenAI</span>
+                    <span class="project-tag-full">Telegram</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 12 -->
+        <a href="project-vapi-chatbot.html" class="project-item reveal reveal-delay-1">
+            <div class="project-image-wrap">
+                <!-- Details Gathering Chatbot + Vapi calling -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#1A1714" />
+                    <!-- Chat form left -->
+                    <rect x="14" y="28" width="100" height="124" rx="8" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <text x="64" y="45" font-family="'DM Mono',monospace" font-size="6" fill="#C4A882"
+                        text-anchor="middle">Chatbot</text>
+                    <!-- Field rows -->
+                    <rect x="24" y="52" width="80" height="10" rx="2" fill="#1A1714" stroke="#8B6F47" stroke-width="0.8"
+                        opacity="0.8" />
+                    <text x="29" y="60" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        opacity="0.5">Name: John Doe</text>
+                    <rect x="24" y="68" width="80" height="10" rx="2" fill="#1A1714" stroke="#8B6F47" stroke-width="0.8"
+                        opacity="0.8" />
+                    <text x="29" y="76" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        opacity="0.5">Email: john@…</text>
+                    <rect x="24" y="84" width="80" height="10" rx="2" fill="#1A1714" stroke="#8B6F47" stroke-width="0.8"
+                        opacity="0.8" />
+                    <text x="29" y="92" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        opacity="0.5">Phone: +1 555…</text>
+                    <rect x="24" y="100" width="80" height="10" rx="2" fill="#8B6F47" opacity="0.3" stroke="#C4A882"
+                        stroke-width="0.7" />
+                    <text x="29" y="108" font-family="'DM Mono',monospace" font-size="5" fill="#C4A882">Budget:
+                        $5k/mo</text>
+                    <!-- Submit pulse -->
+                    <rect x="34" y="120" width="60" height="18" rx="4" fill="#8B6F47" opacity="0.8" />
+                    <text x="64" y="132" font-family="'DM Mono',monospace" font-size="6" fill="#F5F0E8"
+                        text-anchor="middle">Submit ✓</text>
+
+                    <!-- Arrow center -->
+                    <path d="M114 90 L140 90" stroke="#8B6F47" stroke-width="1.3" fill="none" stroke-dasharray="4 2" />
+                    <polyline points="138,87.5 141,90 138,92.5" stroke="#8B6F47" stroke-width="1.3" fill="none"
+                        stroke-linecap="round" />
+
+                    <!-- n8n middle -->
+                    <rect x="140" y="68" width="50" height="44" rx="7" fill="#2C2820" stroke="#C4A882"
+                        stroke-width="1.4" />
+                    <text x="165" y="93" font-family="'Cormorant Garamond',serif" font-size="16" fill="#C4A882"
+                        text-anchor="middle" font-style="italic">n8n</text>
+
+                    <!-- Arrow to Vapi -->
+                    <path d="M190 90 L214 90" stroke="#8B6F47" stroke-width="1.3" fill="none" stroke-dasharray="4 2" />
+                    <polyline points="212,87.5 215,90 212,92.5" stroke="#8B6F47" stroke-width="1.3" fill="none"
+                        stroke-linecap="round" />
+
+                    <!-- Vapi Voice Call node -->
+                    <rect x="214" y="52" width="92" height="76" rx="8" fill="#2C2820" stroke="#C4A882"
+                        stroke-width="1.5" />
+                    <text x="260" y="70" font-family="'DM Mono',monospace" font-size="7" fill="#C4A882"
+                        text-anchor="middle">VAPI</text>
+                    <!-- Mic + waveform -->
+                    <rect x="253" y="74" width="14" height="20" rx="7" fill="none" stroke="#C4A882"
+                        stroke-width="1.2" />
+                    <line x1="260" y1="94" x2="260" y2="100" stroke="#C4A882" stroke-width="1.2" />
+                    <path d="M254 100 Q260 103 266 100" stroke="#C4A882" stroke-width="1" fill="none"
+                        stroke-linecap="round" />
+                    <!-- Voice waves -->
+                    <path d="M274 82 Q278 88 274 94" stroke="#8B6F47" stroke-width="1" fill="none"
+                        stroke-linecap="round" />
+                    <path d="M278 79 Q284 88 278 97" stroke="#8B6F47" stroke-width="1" fill="none"
+                        stroke-linecap="round" opacity="0.5" />
+                    <text x="260" y="118" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8" opacity="0.5"
+                        text-anchor="middle">Voice Call</text>
+
+                    <text x="160" y="160" font-family="'DM Mono',monospace" font-size="6.5" fill="#8B6F47" opacity="0.6"
+                        text-anchor="middle">Chatbot + Vapi Calling</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">12</span>
+                    <span class="project-year-full">2025</span>
+                </div>
+                <h2 class="project-name-full">Details Gathering Chatbot and Calling Through Vapi</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">Open-AI</span>
+                    <span class="project-tag-full">Vapi</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 13 -->
+        <a href="project-eod-slack.html" class="project-item reveal">
+            <div class="project-image-wrap">
+                <!-- EOD Email Check + Slack Notification: Sheets + Gmail + Slack + n8n -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#EDE7D9" />
+                    <!-- Clock / schedule trigger -->
+                    <circle cx="44" cy="90" r="28" fill="#F5F0E8" stroke="#8B6F47" stroke-width="1.3" />
+                    <circle cx="44" cy="90" r="20" fill="none" stroke="#8B6F47" stroke-width="0.8" opacity="0.3" />
+                    <!-- Clock hands (5pm / EOD) -->
+                    <line x1="44" y1="90" x2="44" y2="74" stroke="#1A1714" stroke-width="1.8" stroke-linecap="round" />
+                    <line x1="44" y1="90" x2="55" y2="90" stroke="#8B6F47" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="44" cy="90" r="2.5" fill="#8B6F47" />
+                    <!-- Tick marks -->
+                    <line x1="44" y1="64" x2="44" y2="68" stroke="#1A1714" stroke-width="1" opacity="0.3" />
+                    <line x1="60" y1="74" x2="57" y2="77" stroke="#1A1714" stroke-width="1" opacity="0.3" />
+                    <line x1="64" y1="90" x2="60" y2="90" stroke="#1A1714" stroke-width="1" opacity="0.3" />
+                    <text x="44" y="108" font-family="'DM Mono',monospace" font-size="5" fill="#8B6F47"
+                        text-anchor="middle">5:00 PM</text>
+
+                    <!-- Arrow -->
+                    <path d="M72 90 L92 90" stroke="#8B6F47" stroke-width="1.2" fill="none" stroke-dasharray="3 2" />
+                    <polyline points="90,87.5 93,90 90,92.5" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-linecap="round" />
+
+                    <!-- n8n checks Gmail + Sheets (stacked) -->
+                    <rect x="92" y="58" width="90" height="64" rx="8" fill="#1A1714" stroke="#8B6F47"
+                        stroke-width="1.4" />
+                    <text x="137" y="79" font-family="'Cormorant Garamond',serif" font-size="13" fill="#C4A882"
+                        text-anchor="middle" font-style="italic">n8n</text>
+                    <!-- check icons -->
+                    <path d="M100 90 L105 95 L115 82" stroke="#C4A882" stroke-width="1.3" fill="none"
+                        stroke-linecap="round" />
+                    <text x="120" y="92" font-family="'DM Mono',monospace" font-size="5.5" fill="#F5F0E8"
+                        opacity="0.6">Gmail</text>
+                    <path d="M100 103 L105 108 L115 95" stroke="#C4A882" stroke-width="1.3" fill="none"
+                        stroke-linecap="round" opacity="0.5" />
+                    <text x="120" y="105" font-family="'DM Mono',monospace" font-size="5.5" fill="#F5F0E8"
+                        opacity="0.4">Sheets</text>
+
+                    <!-- Arrow to Slack -->
+                    <path d="M182 90 L206 90" stroke="#8B6F47" stroke-width="1.2" fill="none" stroke-dasharray="3 2" />
+                    <polyline points="204,87.5 207,90 204,92.5" stroke="#8B6F47" stroke-width="1.2" fill="none"
+                        stroke-linecap="round" />
+
+                    <!-- Slack notification node -->
+                    <rect x="206" y="58" width="100" height="64" rx="8" fill="#F5F0E8" stroke="#C4A882"
+                        stroke-width="1.3" />
+                    <!-- Slack hash icon -->
+                    <g opacity="0.8">
+                        <line x1="222" y1="76" x2="232" y2="76" stroke="#8B6F47" stroke-width="1.5"
+                            stroke-linecap="round" />
+                        <line x1="222" y1="84" x2="232" y2="84" stroke="#8B6F47" stroke-width="1.5"
+                            stroke-linecap="round" />
+                        <line x1="225" y1="72" x2="225" y2="88" stroke="#8B6F47" stroke-width="1.5"
+                            stroke-linecap="round" />
+                        <line x1="229" y1="72" x2="229" y2="88" stroke="#8B6F47" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </g>
+                    <!-- Notification card -->
+                    <rect x="238" y="66" width="60" height="50" rx="5" fill="#1A1714" stroke="#8B6F47"
+                        stroke-width="0.8" />
+                    <rect x="243" y="71" width="20" height="6" rx="1.5" fill="#C4A882" opacity="0.7" />
+                    <text x="243" y="90" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        opacity="0.6">EOD Report</text>
+                    <text x="243" y="99" font-family="'DM Mono',monospace" font-size="5" fill="#C4A882" opacity="0.7">✓
+                        24 emails</text>
+                    <text x="243" y="108" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        opacity="0.4">sent to #ops</text>
+
+                    <text x="160" y="155" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.7"
+                        text-anchor="middle">EOD Email Check + Slack Notify</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">13</span>
+                    <span class="project-year-full">2025</span>
+                </div>
+                <h2 class="project-name-full">EOD Email Check and Slack Notification</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">Google Sheets</span>
+                    <span class="project-tag-full">Gmail</span>
+                    <span class="project-tag-full">Slack</span>
+                    <span class="project-tag-full">n8n</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Project 14 -->
+        <a href="project-cover-letter.html" class="project-item reveal reveal-delay-1">
+            <div class="project-image-wrap">
+                <!-- AI Upwork Cover Letter Generator: Slack + n8n + OpenAI -->
+                <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="width:100%;height:100%;position:absolute;inset:0;">
+                    <rect width="320" height="180" fill="#1A1714" />
+                    <!-- Slack trigger left -->
+                    <rect x="14" y="55" width="72" height="70" rx="8" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <text x="50" y="73" font-family="'DM Mono',monospace" font-size="6" fill="#C4A882"
+                        text-anchor="middle">Slack</text>
+                    <!-- Slack message bubble -->
+                    <rect x="22" y="78" width="56" height="36" rx="5" fill="#1A1714" stroke="#8B6F47"
+                        stroke-width="0.8" />
+                    <text x="26" y="90" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        opacity="0.6">Job: React Dev</text>
+                    <text x="26" y="99" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        opacity="0.4">Budget: $3k</text>
+                    <text x="26" y="108" font-family="'DM Mono',monospace" font-size="5" fill="#8B6F47"
+                        opacity="0.7">/generate</text>
+
+                    <!-- Arrow -->
+                    <path d="M86 90 L110 90" stroke="#8B6F47" stroke-width="1.3" fill="none" stroke-dasharray="4 2" />
+                    <polyline points="108,87.5 111,90 108,92.5" stroke="#8B6F47" stroke-width="1.3" fill="none"
+                        stroke-linecap="round" />
+
+                    <!-- n8n + OpenAI center -->
+                    <rect x="110" y="60" width="100" height="60" rx="8" fill="#2C2820" stroke="#C4A882"
+                        stroke-width="1.5" />
+                    <!-- Prompt engineering visualization -->
+                    <text x="130" y="80" font-family="'DM Mono',monospace" font-size="5" fill="#F5F0E8"
+                        opacity="0.5">&gt; Prompt</text>
+                    <path d="M115 86 L205 86" stroke="#8B6F47" stroke-width="0.6" opacity="0.2" />
+                    <!-- Token stream effect -->
+                    <rect x="116" y="90" width="8" height="6" rx="1" fill="#C4A882" opacity="0.7" />
+                    <rect x="127" y="90" width="12" height="6" rx="1" fill="#C4A882" opacity="0.5" />
+                    <rect x="142" y="90" width="10" height="6" rx="1" fill="#C4A882" opacity="0.35" />
+                    <rect x="155" y="90" width="14" height="6" rx="1" fill="#C4A882" opacity="0.2" />
+                    <rect x="172" y="90" width="8" height="6" rx="1" fill="#C4A882" opacity="0.12" />
+                    <text x="160" y="107" font-family="'Cormorant Garamond',serif" font-size="11" fill="#C4A882"
+                        text-anchor="middle" font-style="italic">GPT-4o</text>
+
+                    <!-- Arrow to output -->
+                    <path d="M210 90 L234 90" stroke="#8B6F47" stroke-width="1.3" fill="none" stroke-dasharray="4 2" />
+                    <polyline points="232,87.5 235,90 232,92.5" stroke="#8B6F47" stroke-width="1.3" fill="none"
+                        stroke-linecap="round" />
+
+                    <!-- Cover letter output node -->
+                    <rect x="234" y="42" width="74" height="96" rx="8" fill="#2C2820" stroke="#8B6F47"
+                        stroke-width="1.2" />
+                    <!-- Document lines -->
+                    <rect x="244" y="52" width="54" height="5" rx="1.5" fill="#C4A882" opacity="0.6" />
+                    <rect x="244" y="61" width="50" height="3" rx="1" fill="#8B6F47" opacity="0.3" />
+                    <rect x="244" y="68" width="54" height="3" rx="1" fill="#8B6F47" opacity="0.25" />
+                    <rect x="244" y="75" width="48" height="3" rx="1" fill="#8B6F47" opacity="0.2" />
+                    <rect x="244" y="82" width="52" height="3" rx="1" fill="#8B6F47" opacity="0.18" />
+                    <rect x="244" y="89" width="42" height="3" rx="1" fill="#8B6F47" opacity="0.15" />
+                    <rect x="244" y="96" width="50" height="3" rx="1" fill="#8B6F47" opacity="0.12" />
+                    <rect x="244" y="103" width="45" height="3" rx="1" fill="#8B6F47" opacity="0.1" />
+                    <!-- Send back to Slack -->
+                    <rect x="248" y="116" width="46" height="14" rx="4" fill="#8B6F47" opacity="0.7" />
+                    <text x="271" y="126" font-family="'DM Mono',monospace" font-size="5.5" fill="#F5F0E8"
+                        text-anchor="middle">→ Slack</text>
+
+                    <text x="160" y="158" font-family="'DM Mono',monospace" font-size="7" fill="#8B6F47" opacity="0.6"
+                        text-anchor="middle">AI Cover Letter Generator</text>
+                </svg>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-num-full">14</span>
+                    <span class="project-year-full">2025</span>
+                </div>
+                <h2 class="project-name-full">AI Upwork Cover Letter Generator</h2>
+                <div class="project-tags-full">
+                    <span class="project-tag-full">Slack</span>
+                    <span class="project-tag-full">n8n</span>
+                    <span class="project-tag-full">OpenAI</span>
+                </div>
+            </div>
+        </a>
+
+        </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <span class="footer-copy"> Divya — AI Automation</span>
+        <div class="footer-links">
+            <a href="https://www.linkedin.com/in/divya-sohani-95204923a/">LinkedIn</a>
+            <a href="https://github.com/divyasohani10?tab=repositories">GitHub</a>
+        </div>
+    </footer>
+
+    <script>
+        // Cursor
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursorRing');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+        });
+
+        function animateRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        // Scroll reveal
+        const revealEls = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+        revealEls.forEach(el => io.observe(el));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp AI Sales Assistant — Divya Sohani</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=Jost:wght@200;300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --cream: #F5F0E8;
+            --cream-deep: #EDE7D9;
+            --cream-mid: #E8E0D0;
+            --ink: #1A1714;
+            --ink-soft: #2C2820;
+            --ink-muted: #4A4440;
+            --bronze: #8B6F47;
+            --bronze-light: #C4A882;
+            --bronze-pale: #D4BC98;
+            --line: rgba(26, 23, 20, 0.12);
+            --line-strong: rgba(26, 23, 20, 0.22);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor {
+            width: 8px;
+            height: 8px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--bronze);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s, height 0.3s, border-color 0.3s;
+            transform: translate(-50%, -50%);
+        }
+
+        body:has(a:hover) .cursor-ring,
+        body:has(button:hover) .cursor-ring {
+            width: 48px;
+            height: 48px;
+            border-color: var(--ink);
+        }
+
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.6;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 28px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, var(--cream) 60%, transparent);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--bronze);
+        }
+
+        .nav-back {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+            border: 1px solid var(--line-strong);
+            padding: 10px 24px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-back:hover {
+            background: var(--ink);
+            color: var(--cream);
+        }
+
+        /* HERO */
+        .detail-hero {
+            padding: 117px 60px 100px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .hero-meta {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--bronze);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 24px;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(48px, 6vw, 84px);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--ink);
+            margin-bottom: 40px;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--bronze);
+        }
+
+        /* CONTENT */
+        .detail-content {
+            padding: 100px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .detail-main {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .detail-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 40px;
+            background: var(--cream-deep);
+            border: 1px solid var(--line);
+            height: fit-content;
+            position: sticky;
+            top: 140px;
+        }
+
+        .detail-section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--bronze);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .detail-section-label::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--bronze);
+        }
+
+        .detail-h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            color: var(--ink);
+        }
+
+        .detail-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--ink-muted);
+            margin-bottom: 24px;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .detail-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--bronze);
+            border: 1px solid var(--bronze-pale);
+            padding: 6px 14px;
+        }
+
+        /* IMAGE PLACEHOLDER */
+        .detail-visual {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--ink);
+            border: 1px solid var(--line);
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-visual svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 32px 60px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--cream-deep);
+        }
+
+        .footer-copy {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: var(--ink-muted);
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1000px) {
+            .detail-content {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-logo">Divya<span>Sohani</span></a>
+        <a href="projects.html" class="nav-back">← Back to Archive</a>
+    </nav>
+
+    <!-- HERO -->
+    <header class="detail-hero">
+        <div class="hero-meta reveal">
+            <span>Project 13</span>
+            <span>2026</span>
+        </div>
+        <h1 class="hero-title reveal">
+            WhatsApp <em>AI</em><br>Sales Assistant
+        </h1>
+        <div class="tags-container reveal">
+            <span class="detail-tag">n8n</span>
+            <span class="detail-tag">OpenAI</span>
+            <span class="detail-tag">WhatsApp Cloud API</span>
+            <span class="detail-tag">Cloudflare D1</span>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <section class="detail-content">
+        <div class="detail-main">
+            <div class="reveal">
+                <div class="detail-section-label">Overview</div>
+                <h3 class="detail-h3">The Objective</h3>
+                <p class="detail-text">This project transforms WhatsApp into a fully AI-powered conversational commerce platform. The assistant handles product discovery, shows interactive menus and carousels, tracks real-time orders via SQL queries, and manages the entire customer journey — from first message to order status — without any human agent involvement.</p>
+            </div>
+
+            <div class="detail-visual reveal">
+              <!-- Full n8n workflow diagram for WhatsApp AI Sales Assistant -->
+              <svg viewBox="0 0 900 506" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                <rect width="900" height="506" fill="#1A1714"/>
+                <!-- Grid dots -->
+                <g fill="#F5F0E8" opacity="0.04">
+                  <circle cx="60" cy="60" r="1.5"/><circle cx="120" cy="60" r="1.5"/><circle cx="180" cy="60" r="1.5"/><circle cx="240" cy="60" r="1.5"/><circle cx="300" cy="60" r="1.5"/><circle cx="360" cy="60" r="1.5"/><circle cx="420" cy="60" r="1.5"/><circle cx="480" cy="60" r="1.5"/><circle cx="540" cy="60" r="1.5"/><circle cx="600" cy="60" r="1.5"/><circle cx="660" cy="60" r="1.5"/><circle cx="720" cy="60" r="1.5"/><circle cx="780" cy="60" r="1.5"/><circle cx="840" cy="60" r="1.5"/>
+                  <circle cx="60" cy="120" r="1.5"/><circle cx="120" cy="120" r="1.5"/><circle cx="180" cy="120" r="1.5"/><circle cx="240" cy="120" r="1.5"/><circle cx="300" cy="120" r="1.5"/><circle cx="360" cy="120" r="1.5"/><circle cx="420" cy="120" r="1.5"/><circle cx="480" cy="120" r="1.5"/><circle cx="540" cy="120" r="1.5"/><circle cx="600" cy="120" r="1.5"/><circle cx="660" cy="120" r="1.5"/><circle cx="720" cy="120" r="1.5"/><circle cx="780" cy="120" r="1.5"/><circle cx="840" cy="120" r="1.5"/>
+                  <circle cx="60" cy="180" r="1.5"/><circle cx="120" cy="180" r="1.5"/><circle cx="180" cy="180" r="1.5"/><circle cx="240" cy="180" r="1.5"/><circle cx="300" cy="180" r="1.5"/><circle cx="360" cy="180" r="1.5"/><circle cx="420" cy="180" r="1.5"/><circle cx="480" cy="180" r="1.5"/><circle cx="540" cy="180" r="1.5"/><circle cx="600" cy="180" r="1.5"/><circle cx="660" cy="180" r="1.5"/><circle cx="720" cy="180" r="1.5"/><circle cx="780" cy="180" r="1.5"/><circle cx="840" cy="180" r="1.5"/>
+                  <circle cx="60" cy="240" r="1.5"/><circle cx="120" cy="240" r="1.5"/><circle cx="180" cy="240" r="1.5"/><circle cx="240" cy="240" r="1.5"/><circle cx="300" cy="240" r="1.5"/><circle cx="360" cy="240" r="1.5"/><circle cx="420" cy="240" r="1.5"/><circle cx="480" cy="240" r="1.5"/><circle cx="540" cy="240" r="1.5"/><circle cx="600" cy="240" r="1.5"/><circle cx="660" cy="240" r="1.5"/><circle cx="720" cy="240" r="1.5"/><circle cx="780" cy="240" r="1.5"/><circle cx="840" cy="240" r="1.5"/>
+                  <circle cx="60" cy="300" r="1.5"/><circle cx="120" cy="300" r="1.5"/><circle cx="180" cy="300" r="1.5"/><circle cx="240" cy="300" r="1.5"/><circle cx="300" cy="300" r="1.5"/><circle cx="360" cy="300" r="1.5"/><circle cx="420" cy="300" r="1.5"/><circle cx="480" cy="300" r="1.5"/><circle cx="540" cy="300" r="1.5"/><circle cx="600" cy="300" r="1.5"/><circle cx="660" cy="300" r="1.5"/><circle cx="720" cy="300" r="1.5"/><circle cx="780" cy="300" r="1.5"/><circle cx="840" cy="300" r="1.5"/>
+                  <circle cx="60" cy="360" r="1.5"/><circle cx="120" cy="360" r="1.5"/><circle cx="180" cy="360" r="1.5"/><circle cx="240" cy="360" r="1.5"/><circle cx="300" cy="360" r="1.5"/><circle cx="360" cy="360" r="1.5"/><circle cx="420" cy="360" r="1.5"/><circle cx="480" cy="360" r="1.5"/><circle cx="540" cy="360" r="1.5"/><circle cx="600" cy="360" r="1.5"/><circle cx="660" cy="360" r="1.5"/><circle cx="720" cy="360" r="1.5"/><circle cx="780" cy="360" r="1.5"/><circle cx="840" cy="360" r="1.5"/>
+                  <circle cx="60" cy="420" r="1.5"/><circle cx="120" cy="420" r="1.5"/><circle cx="180" cy="420" r="1.5"/><circle cx="240" cy="420" r="1.5"/><circle cx="300" cy="420" r="1.5"/><circle cx="360" cy="420" r="1.5"/><circle cx="420" cy="420" r="1.5"/><circle cx="480" cy="420" r="1.5"/><circle cx="540" cy="420" r="1.5"/><circle cx="600" cy="420" r="1.5"/><circle cx="660" cy="420" r="1.5"/><circle cx="720" cy="420" r="1.5"/><circle cx="780" cy="420" r="1.5"/><circle cx="840" cy="420" r="1.5"/>
+                </g>
+
+                <defs>
+                  <marker id="da" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto">
+                    <path d="M0.5,0.8 L5.5,3.5 L0.5,6.2" fill="none" stroke="#8B6F47" stroke-width="1.2" stroke-linecap="round"/>
+                  </marker>
+                  <filter id="glow2">
+                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                </defs>
+
+                <!-- PATHS -->
+                <path d="M210 250 L360 250" stroke="#8B6F47" stroke-width="1.5" fill="none" stroke-dasharray="4 2" marker-end="url(#da)"/>
+                <path d="M450 145 L450 160" stroke="#8B6F47" stroke-width="1.5" fill="none" stroke-dasharray="4 2" marker-end="url(#da)"/>
+                <path d="M540 250 C 625 250 625 130 700 130" stroke="#8B6F47" stroke-width="1.5" fill="none" stroke-dasharray="4 2" marker-end="url(#da)"/>
+                <path d="M540 250 C 625 250 625 210 700 210" stroke="#8B6F47" stroke-width="1.5" fill="none" stroke-dasharray="4 2" marker-end="url(#da)"/>
+                <path d="M540 250 C 625 250 625 290 700 290" stroke="#8B6F47" stroke-width="1.5" fill="none" stroke-dasharray="4 2" marker-end="url(#da)"/>
+                <path d="M540 250 C 625 250 625 400 700 400" stroke="#8B6F47" stroke-width="1.5" fill="none" stroke-dasharray="4 2" marker-end="url(#da)"/>
+
+                <!-- Phone Mockup -->
+                <rect x="90" y="110" width="120" height="240" rx="16" fill="#2C2820" stroke="#8B6F47" stroke-width="2"/>
+                <rect x="135" y="120" width="30" height="4" rx="2" fill="#1A1714"/>
+                <rect x="120" y="140" width="80" height="24" rx="10" fill="#25A850" opacity="0.8"/>
+                <text x="160" y="156" font-family="'DM Mono',monospace" font-size="8" fill="#F5F0E8" text-anchor="middle">Show laptops</text>
+                <rect x="100" y="180" width="90" height="60" rx="10" fill="#F5F0E8" opacity="0.9"/>
+                <rect x="110" y="190" width="30" height="30" rx="4" fill="#2C2820" opacity="0.4"/>
+                <rect x="150" y="190" width="30" height="30" rx="4" fill="#2C2820" opacity="0.4"/>
+                <rect x="110" y="225" width="30" height="4" rx="2" fill="#2C2820" opacity="0.4"/>
+                <rect x="150" y="225" width="30" height="4" rx="2" fill="#2C2820" opacity="0.4"/>
+                <text x="150" y="375" font-family="'DM Mono',monospace" font-size="12" fill="#F5F0E8" text-anchor="middle">WhatsApp</text>
+
+                <!-- GPT-4o node -->
+                <circle cx="450" cy="140" r="15" fill="#8B6F47" filter="url(#glow2)" opacity="0.4"/>
+                <circle cx="450" cy="140" r="4" fill="#C4A882"/>
+                <text x="450" y="120" font-family="'Cormorant Garamond',serif" font-size="20" fill="#C4A882" text-anchor="middle" font-style="italic">GPT-4o</text>
+
+                <!-- Switch Diamond -->
+                <polygon points="450,160 540,250 450,340 360,250" fill="#F5F0E8" opacity="0.05" stroke="#8B6F47" stroke-width="2"/>
+                <text x="450" y="255" font-family="'DM Mono',monospace" font-size="14" fill="#F5F0E8" text-anchor="middle">Switch</text>
+
+                <!-- Output Node A: List Menu -->
+                <rect x="700" y="100" width="120" height="60" rx="6" fill="#2C2820" stroke="#8B6F47" stroke-width="1.5"/>
+                <rect x="715" y="118" width="6" height="6" rx="1" fill="#C4A882"/>
+                <rect x="730" y="119" width="60" height="4" rx="2" fill="#F5F0E8" opacity="0.5"/>
+                <rect x="715" y="132" width="6" height="6" rx="1" fill="#C4A882"/>
+                <rect x="730" y="133" width="50" height="4" rx="2" fill="#F5F0E8" opacity="0.5"/>
+                <text x="760" y="175" font-family="'DM Mono',monospace" font-size="8" fill="#F5F0E8" text-anchor="middle">List Menu</text>
+
+                <!-- Output Node B: Carousel -->
+                <rect x="700" y="180" width="120" height="60" rx="6" fill="#2C2820" stroke="#F5F0E8" stroke-width="1.5"/>
+                <rect x="715" y="195" width="20" height="30" rx="2" fill="none" stroke="#F5F0E8" stroke-width="1.5"/>
+                <rect x="745" y="195" width="20" height="30" rx="2" fill="none" stroke="#F5F0E8" stroke-width="1.5"/>
+                <rect x="775" y="195" width="20" height="30" rx="2" fill="none" stroke="#F5F0E8" stroke-width="1.5"/>
+                <text x="760" y="255" font-family="'DM Mono',monospace" font-size="8" fill="#F5F0E8" text-anchor="middle">Carousel</text>
+
+                <!-- Output Node C: Order by ID -->
+                <rect x="700" y="260" width="120" height="60" rx="6" fill="#2C2820" stroke="#8B6F47" stroke-width="1.5"/>
+                <path d="M750 275 C 750 272 770 272 770 275 L 770 295 C 770 298 750 298 750 295 Z" fill="none" stroke="#C4A882" stroke-width="1.5"/>
+                <path d="M750 282 C 750 285 770 285 770 282" fill="none" stroke="#C4A882" stroke-width="1.5"/>
+                <path d="M750 288 C 750 291 770 291 770 288" fill="none" stroke="#C4A882" stroke-width="1.5"/>
+                <text x="760" y="335" font-family="'DM Mono',monospace" font-size="8" fill="#F5F0E8" text-anchor="middle">Order by ID</text>
+                <text x="760" y="350" font-family="'DM Mono',monospace" font-size="7" fill="#F5F0E8" opacity="0.3" text-anchor="middle">SELECT * FROM orders WHERE order_id = ?</text>
+
+                <!-- Output Node D: Order by Phone -->
+                <rect x="700" y="370" width="120" height="60" rx="6" fill="#2C2820" stroke="#8B6F47" stroke-width="1.5"/>
+                <rect x="735" y="380" width="20" height="30" rx="4" fill="none" stroke="#C4A882" stroke-width="1.5"/>
+                <circle cx="745" cy="405" r="1.5" fill="#C4A882"/>
+                <path d="M765 385 C 765 383 775 383 775 385 L 775 400 C 775 402 765 402 765 400 Z" fill="none" stroke="#C4A882" stroke-width="1.5"/>
+                <path d="M765 390 C 765 392 775 392 775 390" fill="none" stroke="#C4A882" stroke-width="1.5"/>
+                <text x="760" y="445" font-family="'DM Mono',monospace" font-size="8" fill="#F5F0E8" text-anchor="middle">Order by Phone</text>
+
+                <!-- ANIMATIONS -->
+                <circle r="4" fill="#8B6F47" filter="url(#glow2)">
+                  <animateMotion dur="2s" repeatCount="indefinite" path="M210 250 L450 250"/>
+                  <animate attributeName="opacity" values="0;1;1;0" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle r="4" fill="#8B6F47" filter="url(#glow2)">
+                  <animateMotion dur="2s" repeatCount="indefinite" path="M450 140 L450 250"/>
+                  <animate attributeName="opacity" values="0;1;1;0" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle r="4" fill="#8B6F47">
+                  <animateMotion dur="2s" repeatCount="indefinite" begin="1s" path="M450 250 L540 250 C 625 250 625 130 700 130"/>
+                  <animate attributeName="opacity" values="0;1;1;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+                </circle>
+                <circle r="4" fill="#8B6F47">
+                  <animateMotion dur="2s" repeatCount="indefinite" begin="1s" path="M450 250 L540 250 C 625 250 625 210 700 210"/>
+                  <animate attributeName="opacity" values="0;1;1;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+                </circle>
+                <circle r="4" fill="#8B6F47">
+                  <animateMotion dur="2s" repeatCount="indefinite" begin="1s" path="M450 250 L540 250 C 625 250 625 290 700 290"/>
+                  <animate attributeName="opacity" values="0;1;1;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+                </circle>
+                <circle r="4" fill="#8B6F47">
+                  <animateMotion dur="2s" repeatCount="indefinite" begin="1s" path="M450 250 L540 250 C 625 250 625 400 700 400"/>
+                  <animate attributeName="opacity" values="0;1;1;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+                </circle>
+
+                <!-- Title watermark -->
+                <text x="450" y="475" font-family="'Cormorant Garamond',serif" font-size="13" fill="#F5F0E8" text-anchor="middle" opacity="0.12" font-style="italic" letter-spacing="0.2em">WHATSAPP AI SALES ASSISTANT — WORKFLOW DIAGRAM</text>
+              </svg>
+            </div>
+
+            <div class="reveal">
+                <div class="detail-section-label">The Challenge</div>
+                <h3 class="detail-h3">Dynamic Routing Complexity</h3>
+                <p class="detail-text">WhatsApp's interactive components (lists, buttons, carousels) each require different API payload structures. The system needed to detect user intent from free-text AND button/list replies, route to the correct response type dynamically, and maintain conversation context — all while querying a live Cloudflare D1 SQL database for real-time order data.</p>
+            </div>
+
+            <div class="reveal">
+                <div class="detail-section-label">The Solution</div>
+                <h3 class="detail-h3">Technical Strategy</h3>
+                <p class="detail-text">OpenAI acts as the core decision engine, converting any user message into a structured JSON object with a 'reply' and an 'action' field. n8n's Switch node reads the action and routes to the correct handler: interactive list menus for product browsing, carousel templates for product showcases, or live SQL queries to Cloudflare D1 for order tracking by Order ID or phone number. The system supports full conversation memory and handles all WhatsApp message types including text, list selections, and button replies.</p>
+            </div>
+        </div>
+
+        <aside class="detail-sidebar reveal">
+            <div>
+                <div class="detail-section-label">Key Results</div>
+                <h3 class="detail-h3">Impact</h3>
+                <ul class="detail-text" style="padding-left: 20px;">
+                    <li style="margin-bottom: 12px;">24/7 automated sales and support on WhatsApp</li>
+                    <li style="margin-bottom: 12px;">Real-time order tracking via live SQL database queries</li>
+                    <li style="margin-bottom: 12px;">Interactive carousels replacing static product catalogues</li>
+                    <li style="margin-bottom: 12px;">Zero human agent required for standard customer journeys</li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="detail-section-label">Tools Used</div>
+                <div class="tags-container">
+                    <span class="detail-tag">n8n</span>
+                    <span class="detail-tag">OpenAI GPT</span>
+                    <span class="detail-tag">WhatsApp Cloud API</span>
+                    <span class="detail-tag">Cloudflare D1</span>
+                    <span class="detail-tag">SQL</span>
+                    <span class="detail-tag">Meta Templates</span>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <span class="footer-copy"> Divya — AI Automation Portfolio</span>
+        <div class="footer-links" style="display:flex; gap:32px;">
+            <a href="https://www.linkedin.com/in/divya-sohani-95204923a/"
+                style="font-family:'DM Mono'; font-size:10px; text-decoration:none; color:var(--ink-muted);">LinkedIn</a>
+            <a href="https://github.com/divyasohani10?tab=repositories"
+                style="font-family:'DM Mono'; font-size:10px; text-decoration:none; color:var(--ink-muted);">GitHub</a>
+        </div>
+    </footer>
+
+    <script>
+        // Cursor
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursorRing');
+        let mx = 0, my = 0, stroke = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+        });
+
+        let rx = 0, ry = 0;
+        function animateRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        // Scroll reveal
+        const revealEls = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+        revealEls.forEach(el => io.observe(el));
+    </script>
+</body>
+
+</html>
